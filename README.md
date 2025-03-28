@@ -1,4 +1,5 @@
-# Dhikr Daily
+![image](https://github.com/user-attachments/assets/8cb43cf3-405e-43f4-b3b7-6933d900044e)
+
 
 ![Project Status](https://img.shields.io/badge/status-in_progress-Green)
 
@@ -56,7 +57,7 @@ This project includes:
 ----
 ## Technologies and Tools Utilised:
 
-[![My Skills](https://skillicons.dev/icons?i=react,js,html,tailwind,css,vite,firebase,nodejs,express,vercel,vscode&perline=3)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=react,vite,js,html,css,firebase,vercel,vscode&perline=2)](https://skillicons.dev)
 
 ---
 
