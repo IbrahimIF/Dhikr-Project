@@ -11,9 +11,14 @@ function App() {
     fajr: '#111822',
     dhuhr: '#123933',
     asr: '#ab2421',
-    maghrib: '#136dac',
+    magrib: '#136dac',
     isha: '#d5e2ef'
   };
+
+  function toMinutes(timeStr) {
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
 
   useEffect(() => {
   const fetchPrayerTimes = async () => {
@@ -44,19 +49,26 @@ function App() {
 
   useEffect(() => {
     if (prayerTimes) {
-      const nowStr = currentTime.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+      const nowStr = currentTime.getHours() * 60 + currentTime.getMinutes();
   
       let newActivePrayer = null;
+
+      
+      const fajr = toMinutes(prayerTimes.fajr);
+      const dhuhr = toMinutes(prayerTimes.dhuhr);
+      const asr = toMinutes(prayerTimes.asr);
+      const magrib = toMinutes(prayerTimes.magrib);
+      const isha = toMinutes(prayerTimes.isha);
   
-      if (nowStr >= prayerTimes.fajr && nowStr < prayerTimes.dhuhr) {
+      if (nowStr >= fajr && nowStr < dhuhr) {
         newActivePrayer = 'fajr';
-      } else if (nowStr >= prayerTimes.dhuhr && nowStr < prayerTimes.asr) {
+      } else if (nowStr >= dhuhr && nowStr < asr) {
         newActivePrayer = 'dhuhr';
-      } else if (nowStr >= prayerTimes.asr && nowStr < prayerTimes.maghrib) {
+      } else if (nowStr >= asr && nowStr < magrib) {
         newActivePrayer = 'asr';
-      } else if (nowStr >= prayerTimes.maghrib && nowStr < prayerTimes.isha) {
-        newActivePrayer = 'maghrib';
-      } else if (nowStr >= prayerTimes.isha && nowStr < prayerTimes.fajr) {
+      } else if (nowStr >= magrib && nowStr < isha) {
+        newActivePrayer = 'magrib';
+      } else if (nowStr >= isha && nowStr < fajr) {
         newActivePrayer = 'isha';
       }
       setActivePrayer(newActivePrayer);
@@ -72,7 +84,7 @@ function App() {
   }, [activePrayer]);
 
   return (
-    <>
+    <div className="container">
       <div className="card">
         <h1>Current Time: {currentTime.toLocaleTimeString()}</h1>
         {prayerTimes ? (
@@ -80,7 +92,7 @@ function App() {
           <li>Fajr: {prayerTimes.fajr}</li>
           <li>Dhuhr: {prayerTimes.dhuhr}</li>
           <li>Asr: {prayerTimes.asr}</li>
-          <li>Maghrib: {prayerTimes.maghrib}</li>
+          <li>magrib: {prayerTimes.magrib}</li>
           <li>Isha: {prayerTimes.isha}</li>
         </ul>
       ) : (
@@ -90,7 +102,7 @@ function App() {
           count is {count}
         </button>
       </div>
-    </>
+    </div>
   )
 }
 

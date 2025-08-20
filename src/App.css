@@ -1,4 +1,4 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -39,4 +39,88 @@
 
 .read-the-docs {
   color: #888;
+} */
+
+
+.container{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  margin: 16px;
+  width: 100%;
+  max-width: 400px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid #ffd900be;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  text-align: center;
+  margin: 0 0 16px 0;
+  color: #ffffff;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  color: #FFC400;
+}
+
+/* List styles */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+/* Active prayer styling */
+.active-prayer {
+  font-weight: 700;
+  color: #F5F5DC;
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.loading-text {
+  text-align: center;
+  font-style: italic;
+  color: #FFD700;
+}
+
+.icon {
+  display: block;
+  margin: 0 auto 16px auto;
+  color: #FFD700;
 }
