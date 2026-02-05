@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import archImage from './assets/Arch.png'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -92,6 +93,10 @@ function App() {
 
   return (
     <div className={`container ${isDarkMode ? 'dark-mode' : ''}`}>
+      <div className="golden-border">
+      <div className="arch-wrapper">
+      <img src={archImage} alt="Arch" className="arch-image" />
+      <div className="card-container">
       <div className="card">
         <h1>Current Time: {currentTime.toLocaleTimeString()}</h1>
         {prayerTimes ? (
@@ -108,6 +113,9 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+      </div>
+      </div>
+      </div>
       </div>
     </div>
   )
