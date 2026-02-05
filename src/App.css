@@ -64,7 +64,7 @@
   max-width: 400px;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  border: 1px solid #ffd900be;
+  border: 2px solid #ffd900be;
 }
 
 h1 {
@@ -123,4 +123,18 @@ li {
   display: block;
   margin: 0 auto 16px auto;
   color: #FFD700;
+}
+
+.dark-mode .card {
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode h1,
+.dark-mode h2 {
+  color: #ffffff;
+}
+
+.dark-mode li {
+  color: #ffffff;
 }
