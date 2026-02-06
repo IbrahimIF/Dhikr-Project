@@ -79,11 +79,11 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
+  color: #000000;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 16px;
-  width: 100%;
+  width: 75%;
   max-width: 400px;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
@@ -98,7 +98,7 @@ h1 {
   letter-spacing: -1px;
   text-align: center;
   margin: 0 0 16px 0;
-  color: #ffffff;
+  color: #000000;
 }
 
 h2 {
@@ -111,14 +111,15 @@ h2 {
   color: #FFC400;
 }
 
-/* List styles */
 ul {
   list-style: none;
   padding: 0;
   margin: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 8px 16px;
+  justify-content: start;
+  width: 100%;
+  padding-bottom: 10px;
 }
 
 li {
@@ -126,11 +127,10 @@ li {
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
-  font-size: 1.125rem;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
-/* Active prayer styling */
 .active-prayer {
   font-weight: 700;
   color: #F5F5DC;
@@ -162,4 +162,33 @@ li {
 
 .dark-mode li {
   color: #ffffff;
+}
+
+.overlay-boxes {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-51%, -45%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.overlay-small {
+  --small-w: 250px;
+  --small-h: 100px;
+  width: var(--small-w);
+  height: var(--small-h);
+  background: #ffffff;
+  border-radius: 100px;
+}
+
+.overlay-large {
+  --large-w: 380px;
+  --large-h: 420px;
+  width: min(var(--large-w), 80vw);
+  height: var(--large-h);
+  background: #ffffff;
 }

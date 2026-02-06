@@ -94,28 +94,32 @@ function App() {
   return (
     <div className={`container ${isDarkMode ? 'dark-mode' : ''}`}>
       <div className="golden-border">
-      <div className="arch-wrapper">
-      <img src={archImage} alt="Arch" className="arch-image" />
-      <div className="card-container">
-      <div className="card">
-        <h1>Current Time: {currentTime.toLocaleTimeString()}</h1>
-        {prayerTimes ? (
-        <ul>
-          <li>Fajr: {prayerTimes.fajr}</li>
-          <li>Dhuhr: {prayerTimes.dhuhr}</li>
-          <li>Asr: {prayerTimes.asr}</li>
-          <li>magrib: {prayerTimes.magrib}</li>
-          <li>Isha: {prayerTimes.isha}</li>
-        </ul>
-      ) : (
-        <p>Loading prayer times...</p>
-      )}
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-      </div>
-      </div>
+        <div className="arch-wrapper">
+          <img src={archImage} alt="Arch" className="arch-image" />
+            <div className="overlay-boxes" aria-hidden="true">
+              <div className="overlay-small" >  
+                <h1>{currentTime.toLocaleTimeString()}</h1>
+              </div>
+              <div className="overlay-large" >
+                <div className="card">
+                  {prayerTimes ? (
+                    <ul>
+                      <li>Fajr: {prayerTimes.fajr}</li>
+                      <li>Dhuhr: {prayerTimes.dhuhr}</li>
+                      <li>Asr: {prayerTimes.asr}</li>
+                      <li>magrib: {prayerTimes.magrib}</li>
+                      <li>Isha: {prayerTimes.isha}</li>
+                    </ul>
+                  ) : (
+                    <p>Loading prayer times...</p>
+                  )}
+                  <button onClick={() => setCount((count) => count + 1)}>
+                    count is {count}
+                  </button> 
+                </div>
+              </div>
+            </div>
+        </div>
       </div>
     </div>
   )
