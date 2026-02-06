@@ -7,7 +7,6 @@ function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [prayerTimes, setPrayerTimes] = useState(null);
   const [activePrayer, setActivePrayer] = useState(null);
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const prayerColors = {
     fajr: '#111822',
@@ -73,13 +72,6 @@ function App() {
         newActivePrayer = 'isha';
       }
       setActivePrayer(newActivePrayer);
-      
-      // Set dark mode if current time is between Isha and Fajr
-      if (nowStr >= isha || nowStr < fajr) {
-        setIsDarkMode(true);
-      } else {
-        setIsDarkMode(false);
-      }
     }
   }, [currentTime, prayerTimes]);
 
@@ -92,7 +84,7 @@ function App() {
   }, [activePrayer]);
 
   return (
-    <div className={`container ${isDarkMode ? 'dark-mode' : ''}`}>
+    <div className="container">
       <div className="golden-border">
         <div className="arch-wrapper">
           <img src={archImage} alt="Arch" className="arch-image" />
