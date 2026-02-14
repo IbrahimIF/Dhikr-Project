@@ -12,6 +12,11 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#080b13',
+      symbolColor: '#ffffff'
+    },
     webPreferences: {
       preload: path.join(__dirname, 'electron-preload.js'), // Link to your preload script
       nodeIntegration: false, // Strongly recommended for security

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import archImage from './assets/Arch.png'
 import adhanSound from './assets/Adhan.mp3'
+import WindowTitleBar from './WindowBar/WindowTitleBar';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -9,6 +10,7 @@ function App() {
   const [prayerTimes, setPrayerTimes] = useState(null);
   const [activePrayer, setActivePrayer] = useState(null);
   const previousPrayer = useRef(null);
+  const hasMounted = useRef(false);
 
   const prayerColors = {
     fajr: '#111822',
@@ -79,9 +81,17 @@ function App() {
 
 
 
- useEffect(() => {
-  if (activePrayer && previousPrayer.current !== activePrayer) {
+useEffect(() => {
+  if (!activePrayer) return;
 
+  if (!hasMounted.current) {
+    document.body.style.backgroundColor = prayerColors[activePrayer];
+    previousPrayer.current = activePrayer;
+    hasMounted.current = true;
+    return;
+  }
+
+  if (previousPrayer.current !== activePrayer) {
     document.body.style.backgroundColor = prayerColors[activePrayer];
 
     const audio = new Audio(adhanSound);
@@ -89,10 +99,12 @@ function App() {
 
     previousPrayer.current = activePrayer;
   }
+
 }, [activePrayer]);
 
   return (
     <div className="container">
+    <WindowTitleBar />
       <div className="golden-border">
         <div className="arch-wrapper">
           <img src={archImage} alt="Arch" className="arch-image" />
