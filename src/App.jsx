@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import archImage from './assets/Arch.png'
+import adhanSound from './assets/Adhan.mp3'
 
 function App() {
   const [count, setCount] = useState(0)
   const [currentTime, setCurrentTime] = useState(new Date());
   const [prayerTimes, setPrayerTimes] = useState(null);
   const [activePrayer, setActivePrayer] = useState(null);
+  const previousPrayer = useRef(null);
 
   const prayerColors = {
     fajr: '#111822',
@@ -77,11 +79,17 @@ function App() {
 
 
 
-  useEffect(() => {
-    if (activePrayer) {
-      document.body.style.backgroundColor = prayerColors[activePrayer];
-    } 
-  }, [activePrayer]);
+ useEffect(() => {
+  if (activePrayer && previousPrayer.current !== activePrayer) {
+
+    document.body.style.backgroundColor = prayerColors[activePrayer];
+
+    const audio = new Audio(adhanSound);
+    audio.play().catch(err => console.log("Audio blocked:", err));
+
+    previousPrayer.current = activePrayer;
+  }
+}, [activePrayer]);
 
   return (
     <div className="container">

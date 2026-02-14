@@ -17,6 +17,7 @@ function createWindow() {
       nodeIntegration: false, // Strongly recommended for security
       contextIsolation: true, // Strongly recommended for security
       enableRemoteModule: false, // Deprecated, set to false for security
+      autoplayPolicy: 'no-user-gesture-required'
     },
   });
 
