@@ -5,12 +5,13 @@
   "type": "module",
   "main": "electron/main.js",
   "scripts": {
-    "dev": "concurrently \"npm run vite-dev\" \"cross-env NODE_ENV=development electron .\"",
-    "vite-dev": "vite",
-    "build": "vite build && electron-builder",
-    "start": "electron .",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "electron": "electron .",
+    "rebuild": "electron-rebuild",
+    "electron:dev": "concurrently -k \"npm:dev\" \"npm:electron\""
   },
   "dependencies": {
     "react": "^18.3.1",
