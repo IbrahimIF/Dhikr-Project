@@ -14,6 +14,7 @@
     "electron:dev": "concurrently -k \"npm:dev\" \"npm:electron\""
   },
   "dependencies": {
+    "better-sqlite3": "^12.6.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
