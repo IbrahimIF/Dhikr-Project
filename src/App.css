@@ -43,6 +43,9 @@
   position: relative;
   width: min(90vw, 90vh);
   aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .arch-image {
@@ -58,24 +61,25 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3%;
+  gap: 0%;
   top: 10%;
 }
 
 
 .overlay-small {
-  width: 30%;
+  width: 25%;
   height: 12%;
   background: #ffffff;
   border-radius: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .overlay-large {
-  width: 45%;
-  height: 50%;
+  width: 40%;
+  height: 52%;
   background: #ffffff;
   display: flex;
   align-items: center;
@@ -100,6 +104,26 @@
   overflow-y: auto;
 }
 
+.card {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb-color, #ffd900be) transparent;
+}
+
+.card::-webkit-scrollbar {
+  width: 10px;
+}
+
+.card::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.card::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-thumb-color, #ffd900be);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
 h1 {
   font-size: clamp(1.3rem, 5.2vw, 3rem);
   line-height: 1.1;
@@ -108,6 +132,15 @@ h1 {
   text-align: center;
   margin: 0 0 16px 0;
   color: #000000;
+}
+
+.overlay-small h1 {
+  font-size: clamp(1rem, 4vh, 3rem);
+  line-height: 1.1;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+  white-space: nowrap;
 }
 
 h2 {

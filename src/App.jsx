@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
-import archImage from './assets/Arch.png'
+import archImage from './assets/Arch3.png'
 import adhanSound from './assets/Adhan.mp3'
 import WindowTitleBar from './WindowBar/WindowTitleBar';
 
@@ -86,6 +86,7 @@ useEffect(() => {
 
   if (!hasMounted.current) {
     document.body.style.backgroundColor = prayerColors[activePrayer];
+    document.documentElement.style.setProperty('--scroll-thumb-color', '#ffd900be');
     previousPrayer.current = activePrayer;
     hasMounted.current = true;
     return;
@@ -93,6 +94,8 @@ useEffect(() => {
 
   if (previousPrayer.current !== activePrayer) {
     document.body.style.backgroundColor = prayerColors[activePrayer];
+
+    document.documentElement.style.setProperty('--scroll-thumb-color', '#ffd900be');
 
     const audio = new Audio(adhanSound);
     audio.play().catch(err => console.log("Audio blocked:", err));
