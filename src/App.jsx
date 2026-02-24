@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
-import archImage from './assets/Arch3.png'
+import archImage from './assets/Arch.png'
 import adhanSound from './assets/Adhan.mp3'
 import WindowTitleBar from './WindowBar/WindowTitleBar';
 

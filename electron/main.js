@@ -2,7 +2,6 @@ import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Convert import.meta.url to __dirname and __filename for Node.js compatibility
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -18,7 +17,7 @@ function createWindow() {
       symbolColor: '#ffffff'
     },
     webPreferences: {
-      preload: path.join(__dirname, 'electron-preload.js'), // Link to your preload script
+      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false, // Strongly recommended for security
       contextIsolation: true, // Strongly recommended for security
       enableRemoteModule: false, // Deprecated, set to false for security
@@ -39,7 +38,6 @@ function createWindow() {
   }
 }
 
-// App lifecycle events
 app.whenReady().then(() => {
   createWindow();
 
@@ -49,6 +47,27 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
+});
+
+
+const { ipcMain } = require('electron');
+const db = require('./database');
+
+ipcMain.handle('get-dhikr', () => {
+  return db.prepare('SELECT * FROM dhikr').all();
+});
+
+ipcMain.handle('get-duas', () => {
+  return db.prepare('SELECT * FROM dua').all();
+});
+
+ipcMain.handle('add-dhikr', (event, dhikr) => {
+  const stmt = db.prepare(`
+    INSERT INTO dhikr (title, arabic, translation, reference)
+    VALUES (?, ?, ?, ?)
+  `);
+
+  stmt.run(dhikr.title, dhikr.arabic, dhikr.translation, dhikr.reference);
 });
 
 app.on('window-all-closed', () => {
