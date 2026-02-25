@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Cinzel:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 10%;
+    --foreground: 40 20% 90%;
+
+    --card: 210 20% 12%;
+    --card-foreground: 40 20% 90%;
+
+    --popover: 210 20% 12%;
+    --popover-foreground: 40 20% 90%;
+
+    --primary: 40 50% 55%;
+    --primary-foreground: 210 20% 10%;
+
+    --secondary: 210 15% 18%;
+    --secondary-foreground: 40 20% 90%;
+
+    --muted: 210 15% 18%;
+    --muted-foreground: 40 10% 60%;
+
+    --accent: 40 50% 55%;
+    --accent-foreground: 210 20% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 40 40% 35%;
+    --input: 210 15% 20%;
+    --ring: 40 50% 55%;
+
+    --radius: 0.5rem;
+
+    --gold: 40 50% 55%;
+    --gold-light: 40 45% 70%;
+    --gold-dark: 40 55% 40%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Cormorant Garamond', serif;
+    transition: background-color 2s ease;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+}
+
+/* Golden border frame */
+.golden-border {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 98vh;
+  width: 99vw;
+  position: relative;
+}
+
+.golden-border::before {
+  content: '';
+  position: absolute;
+  top: 7.5%;
+  right: 7.5%;
+  bottom: 7.5%;
+  left: 7.5%;
+  border: 2px solid #c5a059;
+  box-shadow: 0 0 0 1px #b38b45, inset 0 0 0 1px #b38b45;
+  pointer-events: none;
+}
+
+.golden-border::after {
+  content: '';
+  position: absolute;
+  top: calc(7.5% + 8px);
+  right: calc(7.5% + 8px);
+  bottom: calc(7.5% + 8px);
+  left: calc(7.5% + 8px);
+  border: 1px solid #c5a059;
+  pointer-events: none;
+}
+
+/* Geometric pattern overlay */
+.pattern-overlay {
+  position: fixed;
+  inset: 0;
+  opacity: 0.12;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(156, 163, 175, 0.5) 20px,
+      rgba(156, 163, 175, 0.5) 21px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(156, 163, 175, 0.5) 20px,
+      rgba(156, 163, 175, 0.5) 21px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
