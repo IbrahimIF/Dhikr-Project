@@ -1,9 +1,6 @@
-import { app, BrowserWindow } from 'electron';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
+const { initDatabase, getDB } = require('./database');
 
 let mainWindow;
 
@@ -18,61 +15,55 @@ function createWindow() {
     },
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: false, // Strongly recommended for security
-      contextIsolation: true, // Strongly recommended for security
-      enableRemoteModule: false, // Deprecated, set to false for security
+      nodeIntegration: false,
+      contextIsolation: true,
+      enableRemoteModule: false,
       autoplayPolicy: 'no-user-gesture-required'
     },
   });
 
-  // Determine if the app is packaged (production) or running in development
   if (app.isPackaged) {
-    // In a packaged app, 'dist' is at the root of the app's resources.
-    // app.getAppPath() returns the path to the current application directory.
     mainWindow.loadFile(path.join(app.getAppPath(), 'dist', 'index.html'));
   } else {
-    // In development, load from the Vite dev server
-    // Make sure this matches the port Vite uses (usually 5173)
     mainWindow.loadURL('http://localhost:5173');
-    mainWindow.webContents.openDevTools(); // Open DevTools in dev mode
+    mainWindow.webContents.openDevTools();
   }
 }
 
 app.whenReady().then(() => {
+  initDatabase();
   createWindow();
 
   app.on('activate', () => {
-    // On macOS, re-create a window when the dock icon is clicked
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
 
+const db = getDB();
 
-const { ipcMain } = require('electron');
-const db = require('./database');
-
-ipcMain.handle('get-dhikr', () => {
-  return db.prepare('SELECT * FROM dhikr').all();
+// IPC handlers
+ipcMain.handle('get-content-by-type', (event, type) => {
+  return db.prepare('SELECT * FROM content WHERE type = ?').all(type);
 });
 
-ipcMain.handle('get-duas', () => {
-  return db.prepare('SELECT * FROM dua').all();
+ipcMain.handle('get-favorites', () => {
+  return db.prepare(`
+    SELECT content.*
+    FROM content
+    JOIN favorites ON content.id = favorites.content_id
+  `).all();
 });
 
-ipcMain.handle('add-dhikr', (event, dhikr) => {
-  const stmt = db.prepare(`
-    INSERT INTO dhikr (title, arabic, translation, reference)
-    VALUES (?, ?, ?, ?)
-  `);
-
-  stmt.run(dhikr.title, dhikr.arabic, dhikr.translation, dhikr.reference);
+ipcMain.handle('toggle-favorite', (event, contentId) => {
+  const exists = db.prepare('SELECT 1 FROM favorites WHERE content_id = ?').get(contentId);
+  if (exists) {
+    db.prepare('DELETE FROM favorites WHERE content_id = ?').run(contentId);
+  } else {
+    db.prepare('INSERT INTO favorites (content_id) VALUES (?)').run(contentId);
+  }
+  return true;
 });
 
 app.on('window-all-closed', () => {
-  // Quit the app when all windows are closed, except on macOS
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  if (process.platform !== 'darwin') app.quit();
 });
