@@ -9,6 +9,9 @@ function App() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [prayerTimes, setPrayerTimes] = useState(null);
   const [activePrayer, setActivePrayer] = useState(null);
+  const [leftOpen, setLeftOpen] = useState(false);
+  const [rightOpen, setRightOpen] = useState(false);
+
   const previousPrayer = useRef(null);
   const hasMounted = useRef(false);
 
@@ -108,6 +111,68 @@ useEffect(() => {
   return (
     <div className="container">
     <WindowTitleBar />
+
+    <div className="dropup left">
+      <div className="dropdown">
+        <input
+          hidden
+          className="sr-only"
+          name="state-dropdown-left"
+          id="state-dropdown-left"
+          type="checkbox"
+          checked={leftOpen}
+          onChange={(e) => setLeftOpen(e.target.checked)}
+        />
+        <label
+          htmlFor="state-dropdown-left"
+          className="trigger"
+          data-label="Dua"
+        />
+
+        <ul className="list" role="list">
+          <li className="listitem" role="listitem">
+            <div className="article">Dua Content 1</div>
+          </li>
+          <li className="listitem" role="listitem">
+            <div className="article">Dua Content 2</div>
+          </li>
+          <li className="listitem" role="listitem">
+            <div className="article">More dua content here...</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div className="dropup right">
+      <div className="dropdown">
+        <input
+          hidden
+          className="sr-only"
+          name="state-dropdown-right"
+          id="state-dropdown-right"
+          type="checkbox"
+          checked={rightOpen}
+          onChange={(e) => setRightOpen(e.target.checked)}
+        />
+        <label
+          htmlFor="state-dropdown-right"
+          className="trigger"
+          data-label="Dhikr"
+        />
+
+        <ul className="list" role="list">
+          <li className="listitem" role="listitem">
+            <div className="article">Dhikr Content 1</div>
+          </li>
+          <li className="listitem" role="listitem">
+            <div className="article">Dhikr Content 2</div>
+          </li>
+          <li className="listitem" role="listitem">
+            <div className="article">More dhikr content here...</div>
+          </li>
+        </ul>
+      </div>
+    </div>
       <div className="golden-border">
         <div className="arch-wrapper">
           <img src={archImage} alt="Arch" className="arch-image" />
