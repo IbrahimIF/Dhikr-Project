@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# temporary and lock files
+bun.lock
+*.tsbuildinfo
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
