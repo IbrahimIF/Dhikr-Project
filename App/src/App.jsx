@@ -14,6 +14,7 @@ function App() {
 
   const previousPrayer = useRef(null);
   const hasMounted = useRef(false);
+  const lightBackgrounds = new Set(['isha']);
 
   const prayerColors = {
     fajr: '#111822',
@@ -86,6 +87,8 @@ function App() {
 
 useEffect(() => {
   if (!activePrayer) return;
+   const isLight = lightBackgrounds.has(activePrayer);
+   document.body.classList.toggle('light-prayer', isLight);
 
   if (!hasMounted.current) {
     document.body.style.backgroundColor = prayerColors[activePrayer];
@@ -110,6 +113,7 @@ useEffect(() => {
 
   return (
     <div className="container">
+    <div className="pattern-overlay" />
     <WindowTitleBar />
 
     <div className="dropup left">
