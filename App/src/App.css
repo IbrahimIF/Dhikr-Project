@@ -262,7 +262,6 @@ li {
   transform: translateY(1px);
 }
 
-/* Arrow */
 .trigger:before {
   content: "›";
   rotate: -90deg;
