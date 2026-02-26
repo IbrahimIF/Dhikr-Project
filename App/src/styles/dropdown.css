@@ -1,0 +1,198 @@
+.dropup {
+  position: fixed;
+  bottom: 0px;
+  z-index: 1000;
+}
+
+.dropup.left {
+  left: 20px;
+}
+
+.dropup.right {
+  right: 20px;
+}
+
+.dropdown {
+  border: 2px solid #c5a059;
+  border-radius: 12px 12px 0 0;
+  transition: all 300ms;
+  display: flex;
+  flex-direction: column;
+  min-height: 42px;
+  background-color: rgba(197, 160, 89, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow: hidden;
+  position: relative;
+  max-width: 280px;
+  min-width: 280px;
+  box-shadow: 0 -4px 16px rgba(197, 160, 89, 0.3);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.trigger {
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  font-weight: 600;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-flow: row;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  height: 42px;
+  position: relative;
+  z-index: 99;
+  border-radius: 12px 12px 0 0;
+  background: linear-gradient(135deg, #cbab58 0%, #dbbf71 100%);
+  transition: all 250ms ease;
+  border-bottom: 1px solid rgba(255, 217, 0, 0.3);
+}
+
+.trigger:hover {
+  background: linear-gradient(135deg, #d4ba38 0%, #ceac00 100%);
+  box-shadow: 0 2px 8px rgba(197, 160, 89, 0.4);
+}
+
+.trigger:active {
+  transform: translateY(1px);
+}
+
+/* Arrow */
+.trigger:before {
+  content: "›";
+  rotate: -90deg;
+  width: 16px;
+  height: 16px;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-size: 24px;
+  transition: all 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: 85ms;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+}
+
+.trigger::after {
+  content: attr(data-label);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+}
+
+.dropdown input:where(:checked) + .trigger {
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #c5a059;
+}
+
+.dropdown input:where(:checked) + .trigger:before {
+  rotate: 90deg;
+  transition-delay: 0ms;
+}
+
+.list {
+  height: 100%;
+  max-height: 18rem;
+  width: calc(100% - calc(var(--w-scrollbar) / 2));
+  display: grid;
+  grid-auto-flow: row;
+  overflow: hidden auto;
+  padding: 0 0.85rem;
+  margin-right: -8px;
+  --w-scrollbar: 8px;
+}
+
+.dropdown input:where(:not(:checked)) ~ .list {
+  opacity: 0;
+  transform: translateY(3rem);
+  margin-top: -100%;
+  user-select: none;
+  height: 0px;
+  max-height: 0px;
+  min-height: 0px;
+  pointer-events: none;
+  transition: all 500ms ease-out;
+}
+
+.dropdown input:where(:checked) ~ .list {
+  opacity: 1;
+  transform: translateY(-3rem) scale(1);
+  transition: all 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-top: 24px;
+  padding-top: 4px;
+  margin-bottom: -24px;
+}
+
+.listitem {
+  height: 100%;
+  width: calc(100% + calc(calc(var(--w-scrollbar) / 2) + var(--w-scrollbar)));
+  list-style: none;
+}
+
+.article {
+  padding: 0.85rem;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #000000;
+  font-weight: 500;
+  text-align: left;
+  width: 100%;
+  border: 1.5px solid #ffd900be;
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: all 200ms ease;
+  box-shadow: 0 1px 3px rgba(197, 160, 89, 0.1);
+}
+
+.article:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.95) 100%);
+  border-color: #c5a059;
+  box-shadow: 0 2px 6px rgba(197, 160, 89, 0.2);
+  transform: translateY(-1px);
+}
+
+.list::-webkit-scrollbar {
+  width: var(--w-scrollbar);
+  height: var(--w-scrollbar);
+  border-radius: 9999px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 9999px;
+  transition: background 200ms ease;
+}
+
+.list:hover::-webkit-scrollbar-thumb {
+  background: rgba(197, 160, 89, 0.6);
+}
+
+.list::-webkit-scrollbar-thumb:hover {
+  background: #c5a059;
+}

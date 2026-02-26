@@ -1,35 +1,26 @@
 import { useState, useEffect, useRef } from 'react';
+import adhanSound from '../assets/Adhan.mp3';
+import { toMinutes } from '../utils/timeUtils';
 
-const prayerColors: Record<string, string> = {
+const lightBackgrounds = new Set(['isha', 'asr']);
+
+const prayerColors = {
   fajr: '#111822',
   dhuhr: '#123933',
   asr: '#ab2421',
   magrib: '#136dac',
-  isha: '#d5e2ef',
+  isha: '#d5e2ef'
 };
 
-const lightBackgrounds = new Set(['isha', 'asr']);
-
-function toMinutes(timeStr: string): number {
-  const [hours, minutes] = timeStr.split(':').map(Number);
-  return hours * 60 + minutes;
-}
-
-interface PrayerTimes {
-  fajr: string;
-  dhuhr: string;
-  asr: string;
-  magrib: string;
-  isha: string;
-}
-
-export function usePrayerBackground() {
-  const [prayerTimes, setPrayerTimes] = useState<PrayerTimes | null>(null);
+export function usePrayerLogic() {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [activePrayer, setActivePrayer] = useState<string | null>(null);
-  const hasMounted = useRef(false);
-  const previousPrayer = useRef<string | null>(null);
+  const [prayerTimes, setPrayerTimes] = useState(null);
+  const [activePrayer, setActivePrayer] = useState(null);
 
+  const previousPrayer = useRef(null);
+  const hasMounted = useRef(false);
+
+  // Fetch prayer times
   useEffect(() => {
     const fetchPrayerTimes = async () => {
       try {
@@ -45,20 +36,25 @@ export function usePrayerBackground() {
         console.error('Error fetching prayer times:', error);
       }
     };
+
     fetchPrayerTimes();
   }, []);
 
+  // Clock tick
   useEffect(() => {
     const timerId = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
+
     return () => clearInterval(timerId);
   }, []);
 
+  // Determine active prayer
   useEffect(() => {
     if (prayerTimes) {
       const nowStr = currentTime.getHours() * 60 + currentTime.getMinutes();
-      let newActivePrayer: string | null = null;
+
+      let newActivePrayer = null;
 
       const fajr = toMinutes(prayerTimes.fajr);
       const dhuhr = toMinutes(prayerTimes.dhuhr);
@@ -82,13 +78,16 @@ export function usePrayerBackground() {
     }
   }, [currentTime, prayerTimes]);
 
+  // Background color + adhan
   useEffect(() => {
     if (!activePrayer) return;
+
     const isLight = lightBackgrounds.has(activePrayer);
     document.body.classList.toggle('light-prayer', isLight);
 
     if (!hasMounted.current) {
       document.body.style.backgroundColor = prayerColors[activePrayer];
+      document.documentElement.style.setProperty('--scroll-thumb-color', '#ffd900be');
       previousPrayer.current = activePrayer;
       hasMounted.current = true;
       return;
@@ -96,9 +95,14 @@ export function usePrayerBackground() {
 
     if (previousPrayer.current !== activePrayer) {
       document.body.style.backgroundColor = prayerColors[activePrayer];
+      document.documentElement.style.setProperty('--scroll-thumb-color', '#ffd900be');
+
+      const audio = new Audio(adhanSound);
+      audio.play().catch(err => console.log('Audio blocked:', err));
+
       previousPrayer.current = activePrayer;
     }
   }, [activePrayer]);
 
-  return { activePrayer, prayerTimes };
+  return { currentTime, prayerTimes, activePrayer };
 }

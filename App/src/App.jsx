@@ -1,212 +1,57 @@
-import { useState, useEffect, useRef } from 'react'
-import './App.css'
-import archImage from './assets/Arch.png'
-import adhanSound from './assets/Adhan.mp3'
+import './styles/prayer.css';
+import archImage from './assets/Arch.png';
 import WindowTitleBar from './WindowBar/WindowTitleBar';
+import Dropdown from './components/Dropdown';
+import PrayerCard from './components/PrayerCard';
+import { usePrayerLogic } from './hooks/usePrayerLogic';
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [prayerTimes, setPrayerTimes] = useState(null);
-  const [activePrayer, setActivePrayer] = useState(null);
-  const [leftOpen, setLeftOpen] = useState(false);
-  const [rightOpen, setRightOpen] = useState(false);
-
-  const previousPrayer = useRef(null);
-  const hasMounted = useRef(false);
-  const lightBackgrounds = new Set(['isha']);
-
-  const prayerColors = {
-    fajr: '#111822',
-    dhuhr: '#123933',
-    asr: '#ab2421',
-    magrib: '#136dac',
-    isha: '#d5e2ef'
-  };
-
-  function toMinutes(timeStr) {
-    const [hours, minutes] = timeStr.split(':').map(Number);
-    return hours * 60 + minutes;
-  }
-
-  useEffect(() => {
-  const fetchPrayerTimes = async () => {
-    try {
-      const response = await fetch('https://www.londonprayertimes.com/api/times/?format=json&key=8fa3f321-6d24-4eee-b1b1-e5b518b8170c&24hours=true');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      setPrayerTimes(data);
-    } catch (error) {
-      console.error('Error fetching prayer times:', error);
-    }
-  };
-
-   fetchPrayerTimes();
- }, []);
-
-
-  useEffect(() => {
-    const timerId = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(timerId);
-  }, []);
-
-
-  useEffect(() => {
-    if (prayerTimes) {
-      const nowStr = currentTime.getHours() * 60 + currentTime.getMinutes();
-  
-      let newActivePrayer = null;
-      
-      const fajr = toMinutes(prayerTimes.fajr);
-      const dhuhr = toMinutes(prayerTimes.dhuhr);
-      const asr = toMinutes(prayerTimes.asr);
-      const magrib = toMinutes(prayerTimes.magrib);
-      const isha = toMinutes(prayerTimes.isha);
-  
-      if (nowStr >= fajr && nowStr < dhuhr) {
-        newActivePrayer = 'fajr';
-      } else if (nowStr >= dhuhr && nowStr < asr) {
-        newActivePrayer = 'dhuhr';
-      } else if (nowStr >= asr && nowStr < magrib) {
-        newActivePrayer = 'asr';
-      } else if (nowStr >= magrib && nowStr < isha) {
-        newActivePrayer = 'magrib';
-      } else if (nowStr >= isha || nowStr < fajr) {
-        newActivePrayer = 'isha';
-      }
-      setActivePrayer(newActivePrayer);
-    }
-  }, [currentTime, prayerTimes]);
-
-
-
-useEffect(() => {
-  if (!activePrayer) return;
-   const isLight = lightBackgrounds.has(activePrayer);
-   document.body.classList.toggle('light-prayer', isLight);
-
-  if (!hasMounted.current) {
-    document.body.style.backgroundColor = prayerColors[activePrayer];
-    document.documentElement.style.setProperty('--scroll-thumb-color', '#ffd900be');
-    previousPrayer.current = activePrayer;
-    hasMounted.current = true;
-    return;
-  }
-
-  if (previousPrayer.current !== activePrayer) {
-    document.body.style.backgroundColor = prayerColors[activePrayer];
-
-    document.documentElement.style.setProperty('--scroll-thumb-color', '#ffd900be');
-
-    const audio = new Audio(adhanSound);
-    audio.play().catch(err => console.log("Audio blocked:", err));
-
-    previousPrayer.current = activePrayer;
-  }
-
-}, [activePrayer]);
+  const { currentTime, prayerTimes } = usePrayerLogic();
 
   return (
     <div className="container">
-    <div className="pattern-overlay" />
-    <WindowTitleBar />
+      <div className="pattern-overlay" />
+      <WindowTitleBar />
 
-    <div className="dropup left">
-      <div className="dropdown">
-        <input
-          hidden
-          className="sr-only"
-          name="state-dropdown-left"
-          id="state-dropdown-left"
-          type="checkbox"
-          checked={leftOpen}
-          onChange={(e) => setLeftOpen(e.target.checked)}
-        />
-        <label
-          htmlFor="state-dropdown-left"
-          className="trigger"
-          data-label="Dua"
-        />
+      <Dropdown side="left" label="Dua">
+        <li className="listitem" role="listitem">
+          <div className="article">Dua Content 1</div>
+        </li>
+        <li className="listitem" role="listitem">
+          <div className="article">Dua Content 2</div>
+        </li>
+        <li className="listitem" role="listitem">
+          <div className="article">More dua content here...</div>
+        </li>
+      </Dropdown>
 
-        <ul className="list" role="list">
-          <li className="listitem" role="listitem">
-            <div className="article">Dua Content 1</div>
-          </li>
-          <li className="listitem" role="listitem">
-            <div className="article">Dua Content 2</div>
-          </li>
-          <li className="listitem" role="listitem">
-            <div className="article">More dua content here...</div>
-          </li>
-        </ul>
-      </div>
-    </div>
+      <Dropdown side="right" label="Dhikr">
+        <li className="listitem" role="listitem">
+          <div className="article">Dhikr Content 1</div>
+        </li>
+        <li className="listitem" role="listitem">
+          <div className="article">Dhikr Content 2</div>
+        </li>
+        <li className="listitem" role="listitem">
+          <div className="article">More dhikr content here...</div>
+        </li>
+      </Dropdown>
 
-    <div className="dropup right">
-      <div className="dropdown">
-        <input
-          hidden
-          className="sr-only"
-          name="state-dropdown-right"
-          id="state-dropdown-right"
-          type="checkbox"
-          checked={rightOpen}
-          onChange={(e) => setRightOpen(e.target.checked)}
-        />
-        <label
-          htmlFor="state-dropdown-right"
-          className="trigger"
-          data-label="Dhikr"
-        />
-
-        <ul className="list" role="list">
-          <li className="listitem" role="listitem">
-            <div className="article">Dhikr Content 1</div>
-          </li>
-          <li className="listitem" role="listitem">
-            <div className="article">Dhikr Content 2</div>
-          </li>
-          <li className="listitem" role="listitem">
-            <div className="article">More dhikr content here...</div>
-          </li>
-        </ul>
-      </div>
-    </div>
       <div className="golden-border">
         <div className="arch-wrapper">
           <img src={archImage} alt="Arch" className="arch-image" />
-            <div className="overlay-boxes" aria-hidden="true">
-              <div className="overlay-small" >  
-                <h1>{currentTime.toLocaleTimeString()}</h1>
-              </div>
-              <div className="overlay-large" >
-                <div className="card">
-                  {prayerTimes ? (
-                    <ul>
-                      <li>Fajr: {prayerTimes.fajr}</li>
-                      <li>Dhuhr: {prayerTimes.dhuhr}</li>
-                      <li>Asr: {prayerTimes.asr}</li>
-                      <li>magrib: {prayerTimes.magrib}</li>
-                      <li>Isha: {prayerTimes.isha}</li>
-                    </ul>
-                  ) : (
-                    <p>Loading prayer times...</p>
-                  )}
-                  <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                  </button> 
-                </div>
-              </div>
+          <div className="overlay-boxes" aria-hidden="true">
+            <div className="overlay-small">
+              <h1>{currentTime.toLocaleTimeString()}</h1>
             </div>
+            <div className="overlay-large">
+              <PrayerCard prayerTimes={prayerTimes} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
