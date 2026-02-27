@@ -96,10 +96,3 @@ li {
   font-style: italic;
   color: #FFD700;
 }
-
-.overlay-tz {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-}

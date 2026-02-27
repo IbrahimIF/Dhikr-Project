@@ -13,15 +13,16 @@ function TimezoneSelector({ selectedIana, onChange }) {
 
   return (
     <div className="tz-selector">
-      <button
+     <button
         className="tz-trigger"
         onClick={() => setIsOpen(prev => !prev)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
-        <span className="tz-globe">🌐</span>
         <span className="tz-label">{selected.label}</span>
-        <span className={`tz-arrow ${isOpen ? 'tz-arrow--open' : ''}`}>›</span>
+        <span className={`tz-arrow ${isOpen ? 'tz-arrow--open' : ''}`}>
+          ▾
+        </span>
       </button>
 
       {isOpen && (

@@ -47,12 +47,10 @@ function App() {
           <div className="overlay-boxes" aria-hidden="true">
             <div className="overlay-small">
               <h1>{currentTime.toLocaleTimeString()}</h1>
-              {/* <div className="overlay-tz">
                 <TimezoneSelector
-                  selectedIana={selectedTimezone}
-                  onChange={setSelectedTimezone}
-                />
-              </div> */}
+    selectedIana={selectedTimezone}
+    onChange={setSelectedTimezone}
+  />
             </div>
             <div className="overlay-large">
               <PrayerCard prayerTimes={prayerTimes} />

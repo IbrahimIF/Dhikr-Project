@@ -69,7 +69,7 @@
   top: 10%;
 }
 
-.overlay-small {
+/* .overlay-small {
   width: 25%;
   height: 12%;
   background: #ffffff;
@@ -78,6 +78,21 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+} */
+
+.overlay-small {
+  width: 20%;
+  padding: 0.6rem 1rem;
+  background: #ffffff;
+  border-radius: 60px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+
+  overflow: visible;
 }
 
 .overlay-large {
