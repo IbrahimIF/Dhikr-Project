@@ -14,22 +14,33 @@ const prayerColors = {
 
 export function usePrayerLogic(selectedTimezone = 'Europe/London') {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [displayTime, setDisplayTime] = useState('');
   const [prayerTimes, setPrayerTimes] = useState(null);
   const [activePrayer, setActivePrayer] = useState(null);
 
   const previousPrayer = useRef(null);
   const hasMounted = useRef(false);
 
-  // Fetch prayer times
+  /* ---- CLOCK ---- */
   useEffect(() => {
-    const fetchPrayerTimes = async () => {
+    const updateClock = () => {
+      const now = new Date();
+      setCurrentTime(now);
+      setDisplayTime(formatTimeInZone(now, selectedTimezone));
+    };
+
+    updateClock();
+    const timerId = setInterval(updateClock, 1000);
+    return () => clearInterval(timerId);
+  }, [selectedTimezone]);
+
+  /* ---- FETCH LONDON PRAYER TIMES (DEFAULT) ---- */
+  useEffect(() => {
+    const fetchLondonPrayerTimes = async () => {
       try {
         const response = await fetch(
           'https://www.londonprayertimes.com/api/times/?format=json&key=8fa3f321-6d24-4eee-b1b1-e5b518b8170c&24hours=true'
         );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
         const data = await response.json();
         setPrayerTimes(data);
       } catch (error) {
@@ -37,48 +48,35 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
       }
     };
 
-    fetchPrayerTimes();
+    fetchLondonPrayerTimes();
   }, []);
 
-  // Clock tick
+  /* ---- ACTIVE PRAYER LOGIC ---- */
   useEffect(() => {
-    const timerId = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
+    if (!prayerTimes) return;
 
-    return () => clearInterval(timerId);
-  }, []);
+    const now = new Date();
+    const minutesNow =
+      now.getHours() * 60 + now.getMinutes();
 
-  // Determine active prayer
-  useEffect(() => {
-    if (prayerTimes) {
-      const nowStr = currentTime.getHours() * 60 + currentTime.getMinutes();
+    const fajr = toMinutes(prayerTimes.fajr);
+    const dhuhr = toMinutes(prayerTimes.dhuhr);
+    const asr = toMinutes(prayerTimes.asr);
+    const magrib = toMinutes(prayerTimes.magrib);
+    const isha = toMinutes(prayerTimes.isha);
 
-      let newActivePrayer = null;
+    let newActivePrayer = null;
 
-      const fajr = toMinutes(prayerTimes.fajr);
-      const dhuhr = toMinutes(prayerTimes.dhuhr);
-      const asr = toMinutes(prayerTimes.asr);
-      const magrib = toMinutes(prayerTimes.magrib);
-      const isha = toMinutes(prayerTimes.isha);
+    if (minutesNow >= fajr && minutesNow < dhuhr) newActivePrayer = 'fajr';
+    else if (minutesNow >= dhuhr && minutesNow < asr) newActivePrayer = 'dhuhr';
+    else if (minutesNow >= asr && minutesNow < magrib) newActivePrayer = 'asr';
+    else if (minutesNow >= magrib && minutesNow < isha) newActivePrayer = 'magrib';
+    else newActivePrayer = 'isha';
 
-      if (nowStr >= fajr && nowStr < dhuhr) {
-        newActivePrayer = 'fajr';
-      } else if (nowStr >= dhuhr && nowStr < asr) {
-        newActivePrayer = 'dhuhr';
-      } else if (nowStr >= asr && nowStr < magrib) {
-        newActivePrayer = 'asr';
-      } else if (nowStr >= magrib && nowStr < isha) {
-        newActivePrayer = 'magrib';
-      } else if (nowStr >= isha || nowStr < fajr) {
-        newActivePrayer = 'isha';
-      }
-
-      setActivePrayer(newActivePrayer);
-    }
+    setActivePrayer(newActivePrayer);
   }, [currentTime, prayerTimes]);
 
-  // Background color + adhan
+  /* ---- BACKGROUND + ADHAN ---- */
   useEffect(() => {
     if (!activePrayer) return;
 
@@ -87,7 +85,6 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
 
     if (!hasMounted.current) {
       document.body.style.backgroundColor = prayerColors[activePrayer];
-      document.documentElement.style.setProperty('--scroll-thumb-color', '#ffd900be');
       previousPrayer.current = activePrayer;
       hasMounted.current = true;
       return;
@@ -95,17 +92,13 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
 
     if (previousPrayer.current !== activePrayer) {
       document.body.style.backgroundColor = prayerColors[activePrayer];
-      document.documentElement.style.setProperty('--scroll-thumb-color', '#ffd900be');
 
       const audio = new Audio(adhanSound);
-      audio.play().catch(err => console.log('Audio blocked:', err));
+      audio.play().catch(() => {});
 
       previousPrayer.current = activePrayer;
     }
   }, [activePrayer]);
 
-  // Formatted time string in the selected timezone
-  const displayTime = formatTimeInZone(currentTime, selectedTimezone);
-
-  return { currentTime, displayTime, prayerTimes, activePrayer };
+  return { displayTime, prayerTimes, activePrayer };
 }
