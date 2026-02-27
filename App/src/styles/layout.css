@@ -1,0 +1,134 @@
+.container{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  position: relative;
+}
+
+.golden-border {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 98vh;
+  width: 99vw;
+  position: relative;
+  z-index: 1;
+}
+
+.golden-border::before {
+  content: '';
+  position: absolute;
+  top: 7.5%;
+  right: 7.5%;
+  bottom: 7.5%;
+  left: 7.5%;
+  border: 2px solid #c5a059;
+  box-shadow: 
+      0 0 0 1px #b38b45,
+      inset 0 0 0 1px #b38b45;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.golden-border::after {
+  content: '';
+  position: absolute;
+  top: calc(7.5% + 8px);
+  right: calc(7.5% + 8px);
+  bottom: calc(7.5% + 8px);
+  left: calc(7.5% + 8px);
+  border: 1px solid #c5a059;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.arch-wrapper {
+  position: relative;
+  width: min(90vw, 90vh);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.arch-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.overlay-boxes {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0%;
+  top: 10%;
+}
+
+.overlay-small {
+  width: 25%;
+  height: 12%;
+  background: #ffffff;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.overlay-large {
+  width: 40%;
+  height: 52%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.pattern-overlay {
+  position: fixed;
+  inset: 0;
+  opacity: 0.12;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(156, 163, 175, 0.5) 20px,
+      rgba(156, 163, 175, 0.5) 21px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(156, 163, 175, 0.5) 20px,
+      rgba(156, 163, 175, 0.5) 21px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.light-prayer .pattern-overlay {
+  opacity: 0.25;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(60, 70, 80, 0.5) 20px,
+      rgba(60, 70, 80, 0.5) 21px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(60, 70, 80, 0.5) 20px,
+      rgba(60, 70, 80, 0.5) 21px
+    );
+}
+

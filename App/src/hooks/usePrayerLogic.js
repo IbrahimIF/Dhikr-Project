@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import adhanSound from '../assets/Adhan.mp3';
-import { toMinutes } from '../utils/timeUtils';
+import { toMinutes, formatTimeInZone } from '../utils/timeUtils';
 
 const lightBackgrounds = new Set(['isha', 'asr']);
 
@@ -12,7 +12,7 @@ const prayerColors = {
   isha: '#d5e2ef'
 };
 
-export function usePrayerLogic() {
+export function usePrayerLogic(selectedTimezone = 'Europe/London') {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [prayerTimes, setPrayerTimes] = useState(null);
   const [activePrayer, setActivePrayer] = useState(null);
@@ -104,5 +104,8 @@ export function usePrayerLogic() {
     }
   }, [activePrayer]);
 
-  return { currentTime, prayerTimes, activePrayer };
+  // Formatted time string in the selected timezone
+  const displayTime = formatTimeInZone(currentTime, selectedTimezone);
+
+  return { currentTime, displayTime, prayerTimes, activePrayer };
 }

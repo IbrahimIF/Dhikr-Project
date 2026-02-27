@@ -1,12 +1,16 @@
+import { useState } from 'react';
 import './styles/prayer.css';
+import './styles/layout.css';
 import archImage from './assets/Arch.png';
 import WindowTitleBar from './WindowBar/WindowTitleBar';
 import Dropdown from './components/Dropdown';
 import PrayerCard from './components/PrayerCard';
+import TimezoneSelector from './components/TimezoneSelector';
 import { usePrayerLogic } from './hooks/usePrayerLogic';
 
 function App() {
-  const { currentTime, prayerTimes } = usePrayerLogic();
+  const [selectedTimezone, setSelectedTimezone] = useState('Europe/London');
+  const { currentTime, prayerTimes } = usePrayerLogic(selectedTimezone);
 
   return (
     <div className="container">
@@ -43,6 +47,12 @@ function App() {
           <div className="overlay-boxes" aria-hidden="true">
             <div className="overlay-small">
               <h1>{currentTime.toLocaleTimeString()}</h1>
+              {/* <div className="overlay-tz">
+                <TimezoneSelector
+                  selectedIana={selectedTimezone}
+                  onChange={setSelectedTimezone}
+                />
+              </div> */}
             </div>
             <div className="overlay-large">
               <PrayerCard prayerTimes={prayerTimes} />
