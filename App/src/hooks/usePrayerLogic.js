@@ -93,8 +93,19 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
   useEffect(() => {
     if (!prayerTimes) return;
 
-    const nowMinutes =
-      currentTime.getHours() * 60 + currentTime.getMinutes();
+    const formatter = new Intl.DateTimeFormat('en-GB', {
+      timeZone: selectedTimezone,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    });
+
+    const parts = formatter.formatToParts(currentTime);
+
+    const hour = parseInt(parts.find(p => p.type === 'hour').value, 10);
+    const minute = parseInt(parts.find(p => p.type === 'minute').value, 10);
+
+    const nowMinutes = hour * 60 + minute;
 
     const fajr = toMinutes(prayerTimes.fajr);
     const dhuhr = toMinutes(prayerTimes.dhuhr);
@@ -112,7 +123,7 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
 
     setActivePrayer(newActivePrayer);
 
-  }, [currentTime, prayerTimes]);
+  }, [currentTime, prayerTimes, selectedTimezone]);
 
   /* ---------------- BACKGROUND + ADHAN ---------------- */
 
