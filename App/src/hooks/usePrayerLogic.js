@@ -25,6 +25,10 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
 
   const previousPrayer = useRef(null);
   const hasMounted = useRef(false);
+  const timezoneChanged = useRef(false);
+
+  const audioRef = useRef(null);
+  const lastPlayedPrayer = useRef(null);
 
   /* ---------------- CLOCK ---------------- */
 
@@ -128,28 +132,45 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
   /* ---------------- BACKGROUND + ADHAN ---------------- */
 
   useEffect(() => {
-    if (!activePrayer) return;
+    timezoneChanged.current = true;
+  }, [selectedTimezone]);
 
-    const isLight = lightBackgrounds.has(activePrayer);
-    document.body.classList.toggle('light-prayer', isLight);
+  useEffect(() => {
+  if (!activePrayer) return;
 
-    if (!hasMounted.current) {
-      document.body.style.backgroundColor = prayerColors[activePrayer];
-      previousPrayer.current = activePrayer;
-      hasMounted.current = true;
-      return;
+  const isLight = lightBackgrounds.has(activePrayer);
+  document.body.classList.toggle('light-prayer', isLight);
+  document.body.style.backgroundColor = prayerColors[activePrayer];
+  document.documentElement.style.setProperty('--scroll-thumb-color', '#ffd900be');
+
+  if (!hasMounted.current) {
+    previousPrayer.current = activePrayer;
+    hasMounted.current = true;
+    return;
+  }
+
+  if (timezoneChanged.current) {
+    previousPrayer.current = activePrayer;
+    timezoneChanged.current = false;
+    return;
+  }
+
+  if (previousPrayer.current !== activePrayer) {
+
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
     }
 
-    if (previousPrayer.current !== activePrayer) {
-      document.body.style.backgroundColor = prayerColors[activePrayer];
+    audioRef.current = new Audio(adhanSound);
+    audioRef.current.play().catch(err =>
+      console.log('Audio blocked:', err)
+    );
 
-      const audio = new Audio(adhanSound);
-      audio.play().catch(() => {});
+    previousPrayer.current = activePrayer;
+  }
 
-      previousPrayer.current = activePrayer;
-    }
-
-  }, [activePrayer]);
+}, [activePrayer]);
 
   return { displayTime, prayerTimes, activePrayer };
 }
