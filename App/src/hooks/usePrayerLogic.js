@@ -12,6 +12,11 @@ const prayerColors = {
   isha: '#d5e2ef'
 };
 
+function extractCityFromTimezone(tz) {
+  const parts = tz.split('/');
+  return parts[parts.length - 1].replaceAll('_', ' ');
+}
+
 export function usePrayerLogic(selectedTimezone = 'Europe/London') {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [displayTime, setDisplayTime] = useState('');
@@ -21,7 +26,8 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
   const previousPrayer = useRef(null);
   const hasMounted = useRef(false);
 
-  /* ---- CLOCK ---- */
+  /* ---------------- CLOCK ---------------- */
+
   useEffect(() => {
     const updateClock = () => {
       const now = new Date();
@@ -34,30 +40,61 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
     return () => clearInterval(timerId);
   }, [selectedTimezone]);
 
-  /* ---- FETCH LONDON PRAYER TIMES (DEFAULT) ---- */
+  /* ---------------- FETCH PRAYER TIMES ---------------- */
+
   useEffect(() => {
-    const fetchLondonPrayerTimes = async () => {
+    const fetchPrayerTimes = async () => {
       try {
-        const response = await fetch(
-          'https://www.londonprayertimes.com/api/times/?format=json&key=8fa3f321-6d24-4eee-b1b1-e5b518b8170c&24hours=true'
-        );
-        const data = await response.json();
-        setPrayerTimes(data);
+        if (selectedTimezone === 'Europe/London') {
+          // Use East London API
+          const response = await fetch(
+            'https://www.londonprayertimes.com/api/times/?format=json&key=8fa3f321-6d24-4eee-b1b1-e5b518b8170c&24hours=true'
+          );
+          const data = await response.json();
+
+          setPrayerTimes({
+            fajr: data.fajr,
+            dhuhr: data.dhuhr,
+            asr: data.asr,
+            magrib: data.magrib,
+            isha: data.isha
+          });
+
+        } else {
+          // Use Aladhan API (Global)
+          const city = extractCityFromTimezone(selectedTimezone);
+
+          const response = await fetch(
+            `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=&method=2`
+          );
+
+          const data = await response.json();
+
+          const timings = data.data.timings;
+
+          setPrayerTimes({
+            fajr: timings.Fajr,
+            dhuhr: timings.Dhuhr,
+            asr: timings.Asr,
+            magrib: timings.Maghrib,
+            isha: timings.Isha
+          });
+        }
       } catch (error) {
         console.error('Error fetching prayer times:', error);
       }
     };
 
-    fetchLondonPrayerTimes();
-  }, []);
+    fetchPrayerTimes();
+  }, [selectedTimezone]);
 
-  /* ---- ACTIVE PRAYER LOGIC ---- */
+  /* ---------------- ACTIVE PRAYER ---------------- */
+
   useEffect(() => {
     if (!prayerTimes) return;
 
-    const now = new Date();
-    const minutesNow =
-      now.getHours() * 60 + now.getMinutes();
+    const nowMinutes =
+      currentTime.getHours() * 60 + currentTime.getMinutes();
 
     const fajr = toMinutes(prayerTimes.fajr);
     const dhuhr = toMinutes(prayerTimes.dhuhr);
@@ -67,16 +104,18 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
 
     let newActivePrayer = null;
 
-    if (minutesNow >= fajr && minutesNow < dhuhr) newActivePrayer = 'fajr';
-    else if (minutesNow >= dhuhr && minutesNow < asr) newActivePrayer = 'dhuhr';
-    else if (minutesNow >= asr && minutesNow < magrib) newActivePrayer = 'asr';
-    else if (minutesNow >= magrib && minutesNow < isha) newActivePrayer = 'magrib';
+    if (nowMinutes >= fajr && nowMinutes < dhuhr) newActivePrayer = 'fajr';
+    else if (nowMinutes >= dhuhr && nowMinutes < asr) newActivePrayer = 'dhuhr';
+    else if (nowMinutes >= asr && nowMinutes < magrib) newActivePrayer = 'asr';
+    else if (nowMinutes >= magrib && nowMinutes < isha) newActivePrayer = 'magrib';
     else newActivePrayer = 'isha';
 
     setActivePrayer(newActivePrayer);
+
   }, [currentTime, prayerTimes]);
 
-  /* ---- BACKGROUND + ADHAN ---- */
+  /* ---------------- BACKGROUND + ADHAN ---------------- */
+
   useEffect(() => {
     if (!activePrayer) return;
 
@@ -98,6 +137,7 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
 
       previousPrayer.current = activePrayer;
     }
+
   }, [activePrayer]);
 
   return { displayTime, prayerTimes, activePrayer };
