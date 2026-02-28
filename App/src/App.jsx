@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './styles/layout.css';
 import archImage from './assets/Arch.png';
 import WindowTitleBar from './WindowBar/WindowTitleBar';
@@ -10,8 +10,20 @@ import { usePrayerLogic } from './hooks/usePrayerLogic';
 function App() {
   const [selectedTimezone, setSelectedTimezone] = useState('Europe/London');
 
-  const { displayTime, prayerTimes } =
-    usePrayerLogic(selectedTimezone);
+  const { displayTime, prayerTimes } = usePrayerLogic(selectedTimezone);
+
+  const [duas, setDuas] = useState([]);
+  const [dhikrs, setDhikrs] = useState([]);
+
+  useEffect(() => {
+    loadContent('dua', setDuas);
+    loadContent('dhikr', setDhikrs);
+  }, []);
+
+  const loadContent = async (type, setter) => {
+    const data = await window.api.getContentByType(type);
+    setter(data);
+  };
 
   return (
     <div className="container">
@@ -19,11 +31,23 @@ function App() {
       <WindowTitleBar />
 
       <Dropdown side="left" label="Dua">
-        <li className="listitem"><div className="article">Dua Content 1</div></li>
+        {duas.map((d) => (
+          <li key={d.id} className="listitem">
+            <div className="article">
+              <strong>{d.title}</strong>: {d.arabic}
+            </div>
+          </li>
+        ))}
       </Dropdown>
 
       <Dropdown side="right" label="Dhikr">
-        <li className="listitem"><div className="article">Dhikr Content 1</div></li>
+        {dhikrs.map((d) => (
+          <li key={d.id} className="listitem">
+            <div className="article">
+              <strong>{d.title}</strong>: {d.arabic}
+            </div>
+          </li>
+        ))}
       </Dropdown>
 
       <div className="golden-border">
