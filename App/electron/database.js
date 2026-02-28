@@ -6,12 +6,25 @@ const fs = require('fs');
 let db;
 
 function initDatabase() {
-  const dbPath = path.join(app.getPath('userData'), 'islamic-content.db');
-  const firstRun = !fs.existsSync(dbPath);
+  const isDev = !app.isPackaged;
 
-  db = new Database(dbPath);
+  // Paths
+  const bundledDbPath = isDev
+    ? path.join(__dirname, 'assets', 'db', 'islamic-content.db') // pre-seeded DB
+    : path.join(process.resourcesPath, 'assets', 'db', 'islamic-content.db');
 
-  // Create tables
+  const userDbPath = path.join(app.getPath('userData'), 'islamic-content.db'); // writable copy
+
+  // Copy bundled DB to userData on first run
+  if (!fs.existsSync(userDbPath)) {
+    fs.copyFileSync(bundledDbPath, userDbPath);
+    console.log('Copied bundled DB to userData:', userDbPath);
+  }
+
+  // Open writable DB
+  db = new Database(userDbPath);
+
+  // Ensure tables exist (for safety)
   db.exec(`
     CREATE TABLE IF NOT EXISTS content (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,7 +37,8 @@ function initDatabase() {
       reference TEXT,
       story TEXT,
       youtube_link TEXT,
-      audio_path TEXT
+      audio_path TEXT,
+      is_seeded INTEGER DEFAULT 0
     );
 
     CREATE TABLE IF NOT EXISTS favorites (
@@ -35,7 +49,9 @@ function initDatabase() {
     );
   `);
 
-  if (firstRun) {
+  // Seed data if no seeded content exists
+  const seededCount = db.prepare('SELECT COUNT(*) AS count FROM content WHERE is_seeded=1').get().count;
+  if (seededCount === 0) {
     seedDatabase();
   }
 }
@@ -43,8 +59,8 @@ function initDatabase() {
 function seedDatabase() {
   const insert = db.prepare(`
     INSERT INTO content
-    (type, title, when_to_recite, benefit, arabic, translation, reference, story, youtube_link, audio_path)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    (type, title, when_to_recite, benefit, arabic, translation, reference, story, youtube_link, audio_path, is_seeded)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
   `);
 
   const seedData = [
