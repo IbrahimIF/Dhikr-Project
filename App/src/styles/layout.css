@@ -64,9 +64,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0%;
-  top: 10%;
+  gap: 2%;
+  top: 27%;
 }
 
 /* .overlay-small {
@@ -82,23 +81,16 @@
 
 .overlay-small {
   width: 20%;
-  padding: 0.6rem 1rem;
-  background: #ffffff;
-  border-radius: 60px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 0.3rem;
-
   overflow: visible;
 }
 
 .overlay-large {
   width: 40%;
-  height: 52%;
-  background: #ffffff;
+  height: 63%;
   display: flex;
   align-items: center;
   justify-content: center;
