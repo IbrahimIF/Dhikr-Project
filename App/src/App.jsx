@@ -34,7 +34,8 @@ function App() {
         {duas.map((d) => (
           <li key={d.id} className="listitem">
             <div className="article">
-              <strong>{d.title}</strong>: {d.arabic}
+              <div className="article-title">{d.title}</div>
+              <div className="article-arabic">{d.arabic}</div>
             </div>
           </li>
         ))}
