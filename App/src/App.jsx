@@ -40,6 +40,32 @@ function App() {
         onClose={() => setSelectedContent(null)}
       />
 
+            {/* ADD BUTTON */}
+
+      <button
+        className="add-content-btn"
+        onClick={() => {
+
+          setSelectedContent({
+            type: "",
+            title: "",
+            when_to_recite: "",
+            benefit: "",
+            arabic: "",
+            translation: "",
+            reference: "",
+            story: "",
+            youtube_link: "",
+            audio_path: ""
+          });
+
+          setOverlayMode("add");
+
+        }}
+      >
+        + Add
+      </button>
+
       <Dropdown side="left" label="Dua">
         {duas.map((d) => (
           <li key={d.id} className="listitem">

@@ -1,59 +1,84 @@
-import { useEffect } from "react";
 import "../styles/content.css";
 
-function ContentOverlay({ isOpen, onClose, content }) {
+function ContentOverlay({ isOpen, onClose, content, mode }) {
+
   if (!isOpen || !content) return null;
+
+  const isAdd = mode === "add";
 
   return (
     <div className="content-overlay">
+
       <div className="content-card">
-        <button className="overlay-close" onClick={onClose}>
+
+        <button
+          className="overlay-close"
+          onClick={onClose}
+        >
           ✕
         </button>
 
         <div className="overlay-header">
-          <h2>{content.title}</h2>
+
+          <h2>
+
+            {isAdd ? "Add New Dua / Dhikr" : content.title}
+
+          </h2>
+
+          {!isAdd && (
+            <span className="overlay-type">
+              {content.type}
+            </span>
+          )}
+
         </div>
 
-        <div className="overlay-arabic">
-          {content.arabic}
-        </div>
+        {!isAdd && (
+          <>
+            <div className="overlay-arabic">
+              {content.arabic}
+            </div>
 
-        {content.translation && (
-          <div className="overlay-section">
-            <h4>Translation</h4>
-            <p>{content.translation}</p>
-          </div>
+            {content.translation && (
+              <div className="overlay-section">
+                <h4>Translation</h4>
+                <p>{content.translation}</p>
+              </div>
+            )}
+
+            {content.when_to_recite && (
+              <div className="overlay-section">
+                <h4>When to Recite</h4>
+                <p>{content.when_to_recite}</p>
+              </div>
+            )}
+
+            {content.benefit && (
+              <div className="overlay-section">
+                <h4>Benefit</h4>
+                <p>{content.benefit}</p>
+              </div>
+            )}
+
+            {content.reference && (
+              <div className="overlay-section">
+                <h4>Reference</h4>
+                <p>{content.reference}</p>
+              </div>
+            )}
+
+            {content.story && (
+              <div className="overlay-section">
+                <h4>Story</h4>
+                <p>{content.story}</p>
+              </div>
+            )}
+          </>
         )}
 
-        {content.when_to_recite && (
-          <div className="overlay-section">
-            <h4>When to Recite</h4>
-            <p>{content.when_to_recite}</p>
-          </div>
-        )}
-
-        {content.benefit && (
-          <div className="overlay-section">
-            <h4>Benefit</h4>
-            <p>{content.benefit}</p>
-          </div>
-        )}
-
-        {content.reference && (
-          <div className="overlay-section">
-            <h4>Reference</h4>
-            <p>{content.reference}</p>
-          </div>
-        )}
-
-        {content.story && (
-          <div className="overlay-section">
-            <h4>Story</h4>
-            <p>{content.story}</p>
-          </div>
-        )}
       </div>
+
     </div>
   );
 }
