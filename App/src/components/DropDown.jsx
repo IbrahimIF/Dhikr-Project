@@ -7,7 +7,7 @@ function Dropdown({ side, label, children }) {
 
   return (
     <div className={`dropup ${side}`}>
-      <div className="dropdown">
+      <div className="dropdown minaret">
         <input
           hidden
           className="sr-only"

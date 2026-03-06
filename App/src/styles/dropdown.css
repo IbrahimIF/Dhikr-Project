@@ -1,6 +1,6 @@
 .dropup {
   position: fixed;
-  bottom: 0px;
+  bottom: -11px;
   z-index: 1000;
 }
 
@@ -22,7 +22,6 @@
   background-color: rgba(197, 160, 89, 0.15);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  overflow: hidden;
   position: relative;
   width: clamp(180px, 22vw, 280px);
   max-width: 90vw;
@@ -52,7 +51,6 @@
   flex-flow: row;
   gap: 0.75rem;
   padding: 0.65rem 1rem;
-  height: 42px;
   position: relative;
   z-index: 99;
   border-radius: 12px 12px 0 0;
@@ -177,6 +175,57 @@
   text-align: left;
 }
 
+/* ===========================
+   Minaret style dropdown
+   =========================== */
+
+.minaret {
+  background: #fdfaf2;
+  border: 2px solid #ceac00;
+  box-shadow: 0 -6px 18px rgba(166, 124, 0, 0.25);
+  position: relative;
+}
+
+.minaret::before {
+  content: "";
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 101%;
+  height: 70px;
+  background: #ceac00;
+  border-radius: 100% 100% 0 0;
+  z-index: -1;
+}
+
+
+.minaret {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.minaret .list,
+.minaret .trigger {
+  border-left: 2px solid #ceac00;
+  border-right: 2px solid #ceac00;
+}
+
+.minaret .trigger {
+  background: #ceac00;
+  border-bottom: none;
+}
+
+/* hover stays gold */
+.minaret .trigger:hover {
+  background: #ceac00;
+}
+
+/* dropdown content */
+.minaret .list {
+  background: #fdfaf2;
+}
+
 .article-arabic {
   font-family: "Amiri", "Scheherazade New", serif;
   font-size: clamp(0.9rem, 1.6vw, 1.25rem);
@@ -195,10 +244,14 @@
   box-shadow: 0 6px 14px rgba(197, 160, 89, 0.25);
 }
 
+.list {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb-color, #ffd900be) transparent;
+}
+
+/* Chrome / Edge / Safari */
 .list::-webkit-scrollbar {
-  width: var(--w-scrollbar);
-  height: var(--w-scrollbar);
-  border-radius: 9999px;
+  width: 6px; /* thinner than card */
 }
 
 .list::-webkit-scrollbar-track {
@@ -206,15 +259,8 @@
 }
 
 .list::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-radius: 9999px;
-  transition: background 200ms ease;
-}
-
-.list:hover::-webkit-scrollbar-thumb {
-  background: rgba(197, 160, 89, 0.6);
-}
-
-.list::-webkit-scrollbar-thumb:hover {
-  background: #c5a059;
+  background-color: var(--scroll-thumb-color, #ffd900be);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
