@@ -13,7 +13,6 @@ function ContentOverlay({ isOpen, onClose, content }) {
 
         <div className="overlay-header">
           <h2>{content.title}</h2>
-          <span className="overlay-type">{content.type}</span>
         </div>
 
         <div className="overlay-arabic">
