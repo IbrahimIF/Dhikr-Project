@@ -75,9 +75,18 @@ function App() {
                 setSelectedContent(d);
                 setOverlayMode("view");
               }}
-              >
+            >
               <div className="article-title">{d.title}</div>
+
               <div className="article-arabic">{d.arabic}</div>
+
+              {d.transliteration && (
+                <div className="article-translit">{d.transliteration}</div>
+              )}
+
+              {d.meaning && (
+                <div className="article-meaning">{d.meaning}</div>
+              )}
             </div>
           </li>
         ))}
@@ -92,9 +101,18 @@ function App() {
                 setSelectedContent(d);
                 setOverlayMode("view");
               }}
-              > 
+            >
               <div className="article-title">{d.title}</div>
+
               <div className="article-arabic">{d.arabic}</div>
+
+              {d.transliteration && (
+                <div className="article-translit">{d.transliteration}</div>
+              )}
+
+              {d.meaning && (
+                <div className="article-meaning">{d.meaning}</div>
+              )}
             </div>
           </li>
         ))}

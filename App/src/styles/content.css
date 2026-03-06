@@ -124,3 +124,39 @@ body.light-prayer .overlay-close {
     opacity: 1;
   }
 }
+
+.overlay-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.overlay-form input,
+.overlay-form textarea,
+.overlay-form select {
+  border: 1px solid #c5a059;
+  border-radius: 8px;
+  padding: 8px;
+  background: rgba(255,255,255,0.05);
+  color: #000;
+  font-size: 0.85rem;
+}
+
+.overlay-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.overlay-save {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #c5a059;
+  background: rgba(197,160,89,0.2);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.overlay-save:hover {
+  background: rgba(197,160,89,0.35);
+}

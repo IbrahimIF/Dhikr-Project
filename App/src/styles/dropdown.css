@@ -175,6 +175,18 @@
   text-align: left;
 }
 
+.article-translit {
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.article-meaning {
+  font-size: 0.8rem;
+  color: #333;
+  line-height: 1.4;
+}
+
 /* ===========================
    Minaret style dropdown
    =========================== */

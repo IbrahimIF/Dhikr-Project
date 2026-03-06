@@ -36,12 +36,17 @@ app.whenReady().then(() => {
 
   const db = getDB();
 
-  // IPC: Get content by type
+  // Get content by type
   ipcMain.handle('get-content-by-type', (event, type) => {
-    return db.prepare('SELECT * FROM content WHERE type = ? ORDER BY id ASC').all(type);
+    return db.prepare(`
+      SELECT *
+      FROM content
+      WHERE type = ?
+      ORDER BY id ASC
+    `).all(type);
   });
 
-  // IPC: Get all favorites
+  // Get favorites
   ipcMain.handle('get-favorites', () => {
     return db.prepare(`
       SELECT content.*
@@ -50,36 +55,57 @@ app.whenReady().then(() => {
     `).all();
   });
 
-  // IPC: Toggle favorite
+  // Toggle favorite
   ipcMain.handle('toggle-favorite', (event, contentId) => {
-    const exists = db.prepare('SELECT 1 FROM favorites WHERE content_id = ?').get(contentId);
+    const exists = db.prepare(
+      'SELECT 1 FROM favorites WHERE content_id = ?'
+    ).get(contentId);
+
     if (exists) {
-      db.prepare('DELETE FROM favorites WHERE content_id = ?').run(contentId);
+      db.prepare(
+        'DELETE FROM favorites WHERE content_id = ?'
+      ).run(contentId);
     } else {
-      db.prepare('INSERT INTO favorites (content_id) VALUES (?)').run(contentId);
+      db.prepare(
+        'INSERT INTO favorites (content_id) VALUES (?)'
+      ).run(contentId);
     }
+
     return true;
   });
 
-  // IPC: Add new dhikr/dua
+  // Add new dhikr / dua
   ipcMain.handle('add-content', (event, content) => {
     const insert = db.prepare(`
       INSERT INTO content
-      (type, title, when_to_recite, benefit, arabic, translation, reference, story, youtube_link, audio_path)
+      (
+        type,
+        title,
+        arabic,
+        transliteration,
+        meaning,
+        context,
+        benefit,
+        reference,
+        explanation,
+        youtube
+      )
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
+
     const result = insert.run(
       content.type,
       content.title,
-      content.when_to_recite || '',
-      content.benefit || '',
       content.arabic,
-      content.translation || '',
+      content.transliteration || '',
+      content.meaning || '',
+      content.context || '',
+      content.benefit || '',
       content.reference || '',
-      content.story || '',
-      content.youtube_link || '',
-      content.audio_path || ''
+      content.explanation || '',
+      content.youtube || ''
     );
+
     return result.lastInsertRowid;
   });
 
