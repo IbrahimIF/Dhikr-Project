@@ -42,70 +42,47 @@
 
 .trigger {
   cursor: pointer;
-  list-style: none;
   user-select: none;
   font-weight: 600;
   width: 100%;
   display: flex;
   align-items: center;
-  flex-flow: row;
+  justify-content: space-between;
   gap: 0.75rem;
   padding: 0.65rem 1rem;
   position: relative;
   z-index: 99;
   border-radius: 12px 12px 0 0;
-  background: linear-gradient(135deg, #cbab58 0%, #dbbf71 100%);
   transition: all 250ms ease;
   border-bottom: 1px solid rgba(255, 217, 0, 0.3);
+  background: #fdfaf200;
+  border-bottom: none;
 }
 
-.trigger:hover {
-  background: linear-gradient(135deg, #d4ba38 0%, #ceac00 100%);
-  box-shadow: 0 2px 8px rgba(197, 160, 89, 0.4);
+.trigger-label {
+  color: #ceac00;
+  font-size: clamp(0.75rem, 1vw, 0.95rem);
+  letter-spacing: 0.3px;
+}
+
+.dropdown-chevron {
+  font-size: 20px;
+  color: #ceac00;
+  transition: transform 350ms cubic-bezier(0.34,1.56,0.64,1);
+  flex-shrink: 0;
 }
 
 .trigger:active {
   transform: translateY(1px);
 }
 
-/* Arrow */
-.trigger:before {
-  content: "›";
-  rotate: -90deg;
-  width: 16px;
-  height: 16px;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  font-size: 24px;
-  transition: all 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  transition-delay: 85ms;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 700;
-}
-
-.trigger::after {
-  content: attr(data-label);
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: clamp(0.75rem, 1vw, 0.95rem);
-  letter-spacing: 0.3px;
+.dropdown input:checked + .trigger .dropdown-chevron {
+  transform: rotate(180deg);
 }
 
 .dropdown input:where(:checked) + .trigger {
   margin-bottom: 0.75rem;
   border-bottom: 1px solid #c5a059;
-}
-
-.dropdown input:where(:checked) + .trigger:before {
-  rotate: 90deg;
-  transition-delay: 0ms;
 }
 
 .list {
@@ -204,33 +181,31 @@
   top: -25px;
   left: 50%;
   transform: translateX(-50%);
-  width: 101%;
+  width: 100%;
   height: 70px;
-  background: #ceac00;
+  background: #fdfaf2;
   border-radius: 100% 100% 0 0;
   z-index: -1;
+  border: 2px solid #c5a059;
+  border-bottom: none;
+  transition: background 0.3s ease-in-out;
 }
-
 
 .minaret {
   padding-left: 6px;
   padding-right: 6px;
+  background: #fdfaf2;
+  border-bottom: none;
 }
 
 .minaret .list,
-.minaret .trigger {
+.minaret  {
   border-left: 2px solid #ceac00;
   border-right: 2px solid #ceac00;
 }
 
-.minaret .trigger {
-  background: #ceac00;
-  border-bottom: none;
-}
-
-/* hover stays gold */
-.minaret .trigger:hover {
-  background: #ceac00;
+.minaret:hover::before {
+  background: #ffefd4;
 }
 
 /* dropdown content */

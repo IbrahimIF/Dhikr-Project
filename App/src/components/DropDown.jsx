@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { FiChevronDown } from "react-icons/fi";
 import '../styles/dropdown.css';
 
 function Dropdown({ side, label, children }) {
@@ -17,11 +18,11 @@ function Dropdown({ side, label, children }) {
           checked={isOpen}
           onChange={(e) => setIsOpen(e.target.checked)}
         />
-        <label
-          htmlFor={id}
-          className="trigger"
-          data-label={label}
-        />
+
+        <label htmlFor={id} className="trigger">
+          <span className="trigger-label">{label}</span>
+          <FiChevronDown className="dropdown-chevron" />
+        </label>
 
         <ul className="list" role="list">
           {children}

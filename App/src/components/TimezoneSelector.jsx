@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TIME_ZONES } from '../utils/timeUtils';
+import { FiChevronDown } from "react-icons/fi";
 import '../styles/timezone.css';
 
 function TimezoneSelector({ selectedIana, onChange }) {
@@ -13,16 +14,14 @@ function TimezoneSelector({ selectedIana, onChange }) {
 
   return (
     <div className="tz-selector">
-     <button
-        className="tz-trigger"
+      <button
+        className={`tz-trigger ${isOpen ? 'tz-trigger--open' : ''}`}
         onClick={() => setIsOpen(prev => !prev)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
         <span className="tz-label">{selected.label}</span>
-        <span className={`tz-arrow ${isOpen ? 'tz-arrow--open' : ''}`}>
-          ▾
-        </span>
+        <FiChevronDown className="tz-chevron" />
       </button>
 
       {isOpen && (

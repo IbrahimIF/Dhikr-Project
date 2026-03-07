@@ -160,3 +160,24 @@ body.light-prayer .overlay-close {
 .overlay-save:hover {
   background: rgba(197,160,89,0.35);
 }
+
+.youtube-mini-btn {
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
+  background: linear-gradient(135deg, #cbab58 0%, #dbbf71 100%);
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  transition: all 200ms ease;
+}
+
+.youtube-mini-btn:hover {
+  background: linear-gradient(135deg, #d4ba38 0%, #ceac00 100%);
+  transform: scale(1.2);
+}

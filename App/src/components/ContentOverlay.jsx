@@ -1,39 +1,30 @@
 import { useState } from "react";
+import { FaYoutube } from "react-icons/fa";
 import "../styles/content.css";
 
 function ContentOverlay({ isOpen, onClose, content, mode }) {
-
   if (!isOpen || !content) return null;
 
   const isAdd = mode === "add";
-
   const [formData, setFormData] = useState(content);
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   }
 
   async function handleSubmit() {
-
     if (!formData.title || !formData.arabic || !formData.type) {
       alert("Title, Arabic and Type are required");
       return;
     }
-
     await window.api.addContent(formData);
-
     onClose();
-
-    window.location.reload(); // simple refresh for now
+    window.location.reload();
   }
 
   return (
     <div className="content-overlay">
-
       <div className="content-card">
 
         <button className="overlay-close" onClick={onClose}>
@@ -41,15 +32,23 @@ function ContentOverlay({ isOpen, onClose, content, mode }) {
         </button>
 
         <div className="overlay-header">
-
-          <h2>
+          <h2 className="overlay-title">
             {isAdd ? "Add New Dua / Dhikr" : content.title}
-          </h2>
 
+            {/* YouTube mini button */}
+            {!isAdd && content.youtube && (
+              <button
+                className="youtube-mini-btn"
+                onClick={() => window.open(content.youtube, "_blank")}
+                title="Watch on YouTube"
+              >
+                <FaYoutube />
+              </button>
+            )}
+          </h2>
         </div>
 
         {isAdd ? (
-
           <div className="overlay-form">
 
             <select
@@ -65,63 +64,63 @@ function ContentOverlay({ isOpen, onClose, content, mode }) {
             <input
               name="title"
               placeholder="Title"
-              value={formData.title}
+              value={formData.title || ""}
               onChange={handleChange}
             />
 
             <textarea
               name="arabic"
               placeholder="Arabic"
-              value={formData.arabic}
+              value={formData.arabic || ""}
+              onChange={handleChange}
+            />
+
+            <input
+              name="transliteration"
+              placeholder="Transliteration"
+              value={formData.transliteration || ""}
               onChange={handleChange}
             />
 
             <textarea
               name="translation"
-              placeholder="Translation"
-              value={formData.translation}
+              placeholder="Meaning / Translation"
+              value={formData.translation || ""}
               onChange={handleChange}
             />
 
             <input
-              name="when_to_recite"
-              placeholder="When to recite"
-              value={formData.when_to_recite}
+              name="context"
+              placeholder="When to recite (optional)"
+              value={formData.context || ""}
               onChange={handleChange}
             />
 
             <input
               name="benefit"
-              placeholder="Benefit"
-              value={formData.benefit}
+              placeholder="Benefit (optional)"
+              value={formData.benefit || ""}
               onChange={handleChange}
             />
 
             <input
               name="reference"
-              placeholder="Reference"
-              value={formData.reference}
+              placeholder="Hadith / Source"
+              value={formData.reference || ""}
               onChange={handleChange}
             />
 
             <textarea
-              name="story"
-              placeholder="Story / Context"
-              value={formData.story}
+              name="explanation"
+              placeholder="Explanation / Story"
+              value={formData.explanation || ""}
               onChange={handleChange}
             />
 
             <input
-              name="youtube_link"
+              name="youtube"
               placeholder="YouTube Link"
-              value={formData.youtube_link}
-              onChange={handleChange}
-            />
-
-            <input
-              name="audio_path"
-              placeholder="Audio File Path"
-              value={formData.audio_path}
+              value={formData.youtube || ""}
               onChange={handleChange}
             />
 
@@ -131,44 +130,28 @@ function ContentOverlay({ isOpen, onClose, content, mode }) {
             >
               Save
             </button>
-
           </div>
-
         ) : (
-
           <>
-            <div className="overlay-arabic">
-              {content.arabic}
-            </div>
-
+            <div className="overlay-arabic">{content.arabic}</div>
             {content.translation && (
               <div className="overlay-section">
                 <h4>Translation</h4>
                 <p>{content.translation}</p>
               </div>
             )}
-
-            {content.when_to_recite && (
-              <div className="overlay-section">
-                <h4>When to Recite</h4>
-                <p>{content.when_to_recite}</p>
-              </div>
-            )}
-
             {content.benefit && (
               <div className="overlay-section">
                 <h4>Benefit</h4>
                 <p>{content.benefit}</p>
               </div>
             )}
-
             {content.reference && (
               <div className="overlay-section">
                 <h4>Reference</h4>
                 <p>{content.reference}</p>
               </div>
             )}
-
             {content.story && (
               <div className="overlay-section">
                 <h4>Story</h4>
