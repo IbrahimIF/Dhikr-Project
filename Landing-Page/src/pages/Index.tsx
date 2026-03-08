@@ -22,7 +22,7 @@ const Index = () => {
         <div className="flex flex-col items-center justify-center text-center z-10 px-8 max-w-2xl">
           {/* App Name */}
           <h1 className="font-display text-5xl md:text-7xl tracking-widest text-foreground mb-8">
-            Adkhar Daily
+            Adhkar Daily
           </h1>
 
           {/* Subtitle */}

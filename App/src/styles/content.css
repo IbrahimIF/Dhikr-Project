@@ -139,7 +139,7 @@ body.light-prayer .overlay-close {
   border-radius: 8px;
   padding: 8px;
   background: rgba(255,255,255,0.05);
-  color: #000;
+  color: #9e9e9e;
   font-size: 0.85rem;
 }
 
@@ -153,13 +153,14 @@ body.light-prayer .overlay-close {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #c5a059;
-  background: rgba(197,160,89,0.2);
+  background: rgba(197, 159, 89, 0.365);
   cursor: pointer;
   font-weight: 600;
+  transition: background 0.3s ease-in-out;
 }
 
 .overlay-save:hover {
-  background: rgba(197,160,89,0.35);
+  background: rgba(197, 159, 89, 0.769);
 }
 
 .youtube-btn {

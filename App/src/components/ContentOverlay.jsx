@@ -33,7 +33,7 @@ function ContentOverlay({ isOpen, onClose, content, mode }) {
 
         <div className="overlay-header">
           <h2 className="overlay-title">
-            {isAdd ? "Add New Dua / Dhikr" : content.title}
+            {isAdd ? "Add New Dua / Dhikr" : `${content.title} - ${content.context}`}
           </h2>
 
         </div>
@@ -124,6 +124,12 @@ function ContentOverlay({ isOpen, onClose, content, mode }) {
         ) : (
           <>
             <div className="overlay-arabic">{content.arabic}</div>
+            {content.transliteration && (
+              <div className="overlay-section">
+                <h4>Transliteration</h4>
+                <p>{content.transliteration}</p>
+              </div>
+            )}
             {content.translation && (
               <div className="overlay-section">
                 <h4>Translation</h4>
@@ -136,16 +142,16 @@ function ContentOverlay({ isOpen, onClose, content, mode }) {
                 <p>{content.benefit}</p>
               </div>
             )}
+            {content.explanation && (
+              <div className="overlay-section">
+                <h4>Explanation</h4>
+                <p>{content.explanation}</p>
+              </div>
+            )}
             {content.reference && (
               <div className="overlay-section">
                 <h4>Reference</h4>
                 <p>{content.reference}</p>
-              </div>
-            )}
-            {content.story && (
-              <div className="overlay-section">
-                <h4>Story</h4>
-                <p>{content.story}</p>
               </div>
             )}
           </>
