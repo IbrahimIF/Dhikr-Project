@@ -34,17 +34,6 @@ function ContentOverlay({ isOpen, onClose, content, mode }) {
         <div className="overlay-header">
           <h2 className="overlay-title">
             {isAdd ? "Add New Dua / Dhikr" : content.title}
-
-            {/* YouTube mini button */}
-            {!isAdd && content.youtube && (
-              <button
-                className="youtube-mini-btn"
-                onClick={() => window.open(content.youtube, "_blank")}
-                title="Watch on YouTube"
-              >
-                <FaYoutube />
-              </button>
-            )}
           </h2>
         </div>
 
@@ -160,6 +149,17 @@ function ContentOverlay({ isOpen, onClose, content, mode }) {
             )}
           </>
         )}
+
+        {!isAdd && content.youtube && (
+          <button
+            className="youtube-btn"
+            onClick={() => window.open(content.youtube, "_blank")}
+            title="Watch on YouTube"
+          >
+            <FaYoutube />
+          </button>
+        )}
+
 
       </div>
     </div>
