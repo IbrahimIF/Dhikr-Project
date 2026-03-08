@@ -156,7 +156,7 @@ function ContentOverlay({ isOpen, onClose, content, mode }) {
             onClick={() => window.open(content.youtube, "_blank")}
             title="Watch on YouTube"
           >
-            <FaYoutube />
+            <FaYoutube size={24}/>
           </button>
         )}
 
