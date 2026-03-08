@@ -267,3 +267,38 @@
 .favorite-btn:hover {
   transform: scale(1.2);
 }
+
+.article-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.article-manage {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #c5a059;
+  padding: 2px;
+  opacity: 0.8;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.edit-btn:hover {
+  opacity: 1;
+  color: #e3c278;
+  transform: scale(1.1);
+}
+
+.delete-btn:hover {
+  opacity: 1;
+  color: #ff6b6b;
+  transform: scale(1.1);
+}

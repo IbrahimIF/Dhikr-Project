@@ -154,6 +154,22 @@ app.whenReady().then(() => {
     }
   });
 
+  ipcMain.handle('delete-content', (event, id) => {
+    // Remove from favorites first
+    db.prepare(`
+      DELETE FROM favorites
+      WHERE content_id = ?
+    `).run(id);
+
+    // Remove from content
+    db.prepare(`
+      DELETE FROM content
+      WHERE id = ?
+    `).run(id);
+
+    return true;
+  });
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });

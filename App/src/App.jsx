@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './styles/layout.css';
-import { FaStar, FaRegStar } from "react-icons/fa";
+import { FaStar, FaRegStar,  FaEdit, FaTrash } from "react-icons/fa";
 import archImage from './assets/Arch.png';
 import WindowTitleBar from './WindowBar/WindowTitleBar';
 import Dropdown from './components/DropDown';
@@ -93,17 +93,35 @@ function App() {
                   <FaRegStar color="#c5a059" />
                 )}
               </button>
-              
-              <button
-                className="edit-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedContent(d);
-                  setOverlayMode("edit");
-                }}
-              >
-                Edit
-              </button>
+              <div className="article-manage">
+                <button
+                  className="edit-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedContent(d);
+                    setOverlayMode("edit");
+                  }}
+                  title="Edit"
+                >
+                  <FaEdit size={14} />
+                </button>
+
+                <button
+                  className="delete-btn"
+                  onClick={async (e) => {
+                    e.stopPropagation();
+
+                    const confirmed = confirm("Delete this entry?");
+                    if (!confirmed) return;
+
+                    await window.api.deleteContent(d.id);
+                    window.location.reload();
+                  }}
+                  title="Delete"
+                >
+                  <FaTrash size={14} />
+                </button>
+              </div>
             </div>
           </li>
         ))}
@@ -144,17 +162,35 @@ function App() {
                   <FaRegStar color="#c5a059" />
                 )}
               </button>
-              
-              <button
-                className="edit-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedContent(d);
-                  setOverlayMode("edit");
-                }}
-              >
-                Edit
-              </button>
+              <div className="article-manage">
+                <button
+                  className="edit-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedContent(d);
+                    setOverlayMode("edit");
+                  }}
+                  title="Edit"
+                >
+                  <FaEdit size={14} />
+                </button>
+
+                <button
+                  className="delete-btn"
+                  onClick={async (e) => {
+                    e.stopPropagation();
+
+                    const confirmed = confirm("Delete this entry?");
+                    if (!confirmed) return;
+
+                    await window.api.deleteContent(d.id);
+                    window.location.reload();
+                  }}
+                  title="Delete"
+                >
+                  <FaTrash size={14} />
+                </button>
+              </div>
             </div>
           </li>
         ))}
