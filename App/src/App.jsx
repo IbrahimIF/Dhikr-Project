@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './styles/layout.css';
+import { FaStar, FaRegStar } from "react-icons/fa";
 import archImage from './assets/Arch.png';
 import WindowTitleBar from './WindowBar/WindowTitleBar';
 import Dropdown from './components/DropDown';
@@ -17,6 +18,23 @@ function App() {
 
   const [duas, setDuas] = useState([]);
   const [dhikrs, setDhikrs] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+
+  // Load favorites initially
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      const favs = await window.api.getFavorites();
+      setFavorites(favs.map(f => f.id));
+    };
+    fetchFavorites();
+  }, []);
+
+  const toggleFavorite = async (id) => {
+    await window.api.toggleFavorite(id);
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]
+    );
+  };
 
   useEffect(() => {
     loadContent('dua', setDuas);
@@ -41,7 +59,8 @@ function App() {
       />
 
       <Dropdown side="left" label="Dua">
-        {duas.map((d) => (
+        {duas.sort((a, b) => favorites.includes(b.id) - favorites.includes(a.id))
+          .map(d => (
           <li key={d.id} className="listitem">
             <div 
               className="article"
@@ -61,13 +80,27 @@ function App() {
               {d.meaning && (
                 <div className="article-meaning">{d.meaning}</div>
               )}
+              <button
+                className="favorite-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFavorite(d.id);
+                }}
+              >
+                {favorites.includes(d.id) ? (
+                  <FaStar color="#ffd900" />
+                ) : (
+                  <FaRegStar color="#c5a059" />
+                )}
+              </button>
             </div>
           </li>
         ))}
       </Dropdown>
 
       <Dropdown side="right" label="Dhikr">
-        {dhikrs.map((d) => (
+        {dhikrs.sort((a, b) => favorites.includes(b.id) - favorites.includes(a.id))
+          .map(d => (
           <li key={d.id} className="listitem">
             <div 
               className="article"
@@ -87,6 +120,19 @@ function App() {
               {d.meaning && (
                 <div className="article-meaning">{d.meaning}</div>
               )}
+              <button
+                className="favorite-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFavorite(d.id);
+                }}
+              >
+                {favorites.includes(d.id) ? (
+                  <FaStar color="#ffd900" />
+                ) : (
+                  <FaRegStar color="#c5a059" />
+                )}
+              </button>
             </div>
           </li>
         ))}

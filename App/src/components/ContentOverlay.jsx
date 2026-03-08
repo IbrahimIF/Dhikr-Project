@@ -35,6 +35,7 @@ function ContentOverlay({ isOpen, onClose, content, mode }) {
           <h2 className="overlay-title">
             {isAdd ? "Add New Dua / Dhikr" : content.title}
           </h2>
+
         </div>
 
         {isAdd ? (
