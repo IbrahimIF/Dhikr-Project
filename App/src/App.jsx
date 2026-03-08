@@ -93,6 +93,17 @@ function App() {
                   <FaRegStar color="#c5a059" />
                 )}
               </button>
+              
+              <button
+                className="edit-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedContent(d);
+                  setOverlayMode("edit");
+                }}
+              >
+                Edit
+              </button>
             </div>
           </li>
         ))}
@@ -132,6 +143,17 @@ function App() {
                 ) : (
                   <FaRegStar color="#c5a059" />
                 )}
+              </button>
+              
+              <button
+                className="edit-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedContent(d);
+                  setOverlayMode("edit");
+                }}
+              >
+                Edit
               </button>
             </div>
           </li>

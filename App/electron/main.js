@@ -115,6 +115,45 @@ app.whenReady().then(() => {
     return result.lastInsertRowid;
   });
 
+  // After add-content handler
+  ipcMain.handle('update-content', async (event, content) => {
+    try {
+      const update = db.prepare(`
+        UPDATE content SET
+          type = ?,
+          title = ?,
+          arabic = ?,
+          transliteration = ?,
+          translation = ?,
+          context = ?,
+          benefit = ?,
+          reference = ?,
+          explanation = ?,
+          youtube = ?
+        WHERE id = ?
+      `);
+
+      update.run(
+        content.type,
+        content.title,
+        content.arabic,
+        content.transliteration || '',
+        content.translation || '',
+        content.context || '',
+        content.benefit || '',
+        content.reference || '',
+        content.explanation || '',
+        content.youtube || '',
+        content.id
+      );
+
+      return { success: true };
+    } catch (err) {
+      console.error(err);
+      return { success: false, error: err.message };
+    }
+  });
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
