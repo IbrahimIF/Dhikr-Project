@@ -3,17 +3,18 @@ import { FaYoutube } from "react-icons/fa";
 import "../styles/content.css";
 
 function ContentOverlay({ isOpen, onClose, content, mode, refreshContent }) {
-  if (!isOpen || !content) return null;
+  const [formData, setFormData] = useState({});
 
   const isAdd = mode === "add";
   const isEdit = mode === "edit";
 
-  const [formData, setFormData] = useState(content);
-
-  // reset form if content changes
   useEffect(() => {
-    setFormData(content);
+    if (content) {
+      setFormData({ ...content });
+    }
   }, [content]);
+
+  if (!isOpen || !content) return null;
 
   function handleChange(e) {
     const { name, value } = e.target;
