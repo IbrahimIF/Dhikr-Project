@@ -36,15 +36,17 @@ function App() {
     );
   };
 
-  useEffect(() => {
-    loadContent('dua', setDuas);
-    loadContent('dhikr', setDhikrs);
-  }, []);
+  const refreshContent = async () => {
+    const duaData = await window.api.getContentByType("dua");
+    const dhikrData = await window.api.getContentByType("dhikr");
 
-  const loadContent = async (type, setter) => {
-    const data = await window.api.getContentByType(type);
-    setter(data);
+    setDuas(duaData);
+    setDhikrs(dhikrData);
   };
+
+  useEffect(() => {
+    refreshContent();
+  }, []);
 
   return (
     <div className="container">
@@ -56,6 +58,7 @@ function App() {
         content={selectedContent}
         mode={overlayMode}
         onClose={() => setSelectedContent(null)}
+        refreshContent={refreshContent}
       />
 
       <Dropdown side="left" label="Dua">
@@ -115,7 +118,7 @@ function App() {
                     if (!confirmed) return;
 
                     await window.api.deleteContent(d.id);
-                    window.location.reload();
+                    await refreshContent();
                   }}
                   title="Delete"
                 >
@@ -184,7 +187,7 @@ function App() {
                     if (!confirmed) return;
 
                     await window.api.deleteContent(d.id);
-                    window.location.reload();
+                    await refreshContent();
                   }}
                   title="Delete"
                 >
@@ -223,14 +226,14 @@ function App() {
           setSelectedContent({
             type: "",
             title: "",
-            when_to_recite: "",
-            benefit: "",
             arabic: "",
+            transliteration: "",
             translation: "",
+            context: "",
+            benefit: "",
             reference: "",
-            story: "",
-            youtube_link: "",
-            audio_path: ""
+            explanation: "",
+            youtube: ""
           });
 
           setOverlayMode("add");

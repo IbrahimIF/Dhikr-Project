@@ -89,7 +89,7 @@ app.whenReady().then(() => {
         title,
         arabic,
         transliteration,
-        meaning,
+        translation,
         context,
         benefit,
         reference,

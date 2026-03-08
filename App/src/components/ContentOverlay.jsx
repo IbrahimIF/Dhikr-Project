@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FaYoutube } from "react-icons/fa";
 import "../styles/content.css";
 
-function ContentOverlay({ isOpen, onClose, content, mode }) {
+function ContentOverlay({ isOpen, onClose, content, mode, refreshContent }) {
   if (!isOpen || !content) return null;
 
   const isAdd = mode === "add";
@@ -32,8 +32,8 @@ function ContentOverlay({ isOpen, onClose, content, mode }) {
       await window.api.updateContent(formData);
     }
 
+    await refreshContent();
     onClose();
-    window.location.reload();
   }
 
   return (
