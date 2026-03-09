@@ -74,10 +74,12 @@ function ContentOverlay({ isOpen, onClose, content, mode, refreshContent }) {
         ) : (
           <>
             <div className="overlay-arabic">{formData.arabic}</div>
+            {formData.transliteration && <div className="overlay-section"><h4>Transliteration</h4><p>{formData.transliteration}</p></div>}
             {formData.translation && <div className="overlay-section"><h4>Translation</h4><p>{formData.translation}</p></div>}
             {formData.benefit && <div className="overlay-section"><h4>Benefit</h4><p>{formData.benefit}</p></div>}
+            {formData.explanation && <div className="overlay-section"><h4>Explanation</h4><p>{formData.explanation}</p></div>}
+            {formData.context && <div className="overlay-section"><h4>When to Recite</h4><p>{formData.context}</p></div>}
             {formData.reference && <div className="overlay-section"><h4>Reference</h4><p>{formData.reference}</p></div>}
-            {formData.story && <div className="overlay-section"><h4>Story</h4><p>{formData.story}</p></div>}
           </>
         )}
 
