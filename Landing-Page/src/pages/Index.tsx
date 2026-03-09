@@ -79,10 +79,19 @@ const Index = () => {
             </button>
 
             <a
-              href="mailto:support@adhkardaily.app"
+              href="https://buy.stripe.com/test_28E8wR86Japc8Vff2Z8og00"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-sm text-gold underline"
             >
               Support
+            </a>
+
+            <a
+              href={`mailto:${import.meta.env.VITE_SUPPORT_EMAIL}`}
+              className="text-sm text-gold underline"
+            >
+              Contact
             </a>
 
           </div>
@@ -173,7 +182,6 @@ const Index = () => {
           >
             ×
           </button>
-
         </div>
       )}
     </>
