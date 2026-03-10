@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-const prayerColors: Record<string, string> = {
+export const prayerColors: Record<string, string> = {
   fajr: '#111822',
   dhuhr: '#123933',
   asr: '#ab2421',

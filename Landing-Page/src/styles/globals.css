@@ -67,25 +67,17 @@
 }
 
 body {
-  color: white; /* default text color for dark backgrounds */
+  color: white;
 }
 
+/* Light prayer backgrounds — override CSS variables so all Tailwind classes update */
 body.dark-text {
-  color: #111; /* dark text for light backgrounds */
-}
-
-/* Optional: adjust muted text, links, buttons */
-body.dark-text .text-muted-foreground {
-  color: #555;
-}
-
-body.dark-text a {
-  color: #222;
-}
-
-body.dark-text button {
-  color: #222;
-  border-color: #444;
+  --foreground: 210 30% 18%;
+  --muted-foreground: 210 15% 32%;
+  --gold: 40 62% 34%;
+  --gold-light: 40 55% 45%;
+  --gold-dark: 40 70% 26%;
+  color: hsl(210, 30%, 15%);
 }
 
 #root {
@@ -132,7 +124,7 @@ body.dark-text button {
   position: fixed;
   inset: 0;
   opacity: 0.12;
-  background-image: 
+  background-image:
     repeating-linear-gradient(
       45deg,
       transparent,

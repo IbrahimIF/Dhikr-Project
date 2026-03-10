@@ -6,11 +6,28 @@ const fs = require('fs');
 let db;
 
 function initDatabase() {
-  const dbPath = path.join(__dirname, 'islamic-content.db');
+  let dbPath;
 
-  // Ensure directory exists (usually already exists if inside electron folder)
-  if (!fs.existsSync(__dirname)) {
-    fs.mkdirSync(__dirname, { recursive: true });
+  if (app.isPackaged) {
+    // In production, use a writable copy in userData
+    const userDataPath = app.getPath('userData');
+    const userDbPath = path.join(userDataPath, 'islamic-content.db');
+    const versionFile = path.join(userDataPath, 'db_version.txt');
+    const currentVersion = app.getVersion();
+    const storedVersion = fs.existsSync(versionFile)
+      ? fs.readFileSync(versionFile, 'utf8').trim()
+      : null;
+
+    // Copy fresh seed DB on first run or when app version changes
+    if (!fs.existsSync(userDbPath) || storedVersion !== currentVersion) {
+      const sourceDb = path.join(process.resourcesPath, 'islamic-content.db');
+      fs.copyFileSync(sourceDb, userDbPath);
+      fs.writeFileSync(versionFile, currentVersion);
+    }
+
+    dbPath = userDbPath;
+  } else {
+    dbPath = path.join(__dirname, 'islamic-content.db');
   }
 
   db = new Database(dbPath);

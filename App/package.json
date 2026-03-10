@@ -9,9 +9,11 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "electron": "electron .",
-    "rebuild": "electron-rebuild",
+    "rebuild": "electron-builder install-app-deps",
     "electron:dev": "concurrently -k \"npm:dev\" \"npm:electron\"",
-    "dist": "npm run build && electron-builder"
+    "dist": "npm run build && electron-builder",
+    "dist:win": "npm run build && electron-builder --win",
+    "dist:linux": "npm run build && electron-builder --linux"
   },
   "dependencies": {
     "better-sqlite3": "^12.6.2",
@@ -22,23 +24,42 @@
   "build": {
     "appId": "com.ibrahim.adkhar-daily",
     "productName": "Adkhar Daily",
+    "asar": true,
+    "asarUnpack": [
+      "**/better-sqlite3/**",
+      "**/node_modules/better-sqlite3/**"
+    ],
+    "extraResources": [
+      {
+        "from": "electron/islamic-content.db",
+        "to": "islamic-content.db"
+      }
+    ],
     "directories": {
-      "buildResources": "build"
+      "buildResources": "build",
+      "output": "../Landing-Page/public/downloads"
     },
     "files": [
       "dist/**/*",
       "electron/**/*",
-      "backend/**/*",
+      "!electron/islamic-content.db",
+      "build/**/*",
       "node_modules/**/*",
       "package.json"
     ],
     "win": {
       "target": "nsis",
-      "icon": "build/icon.ico"
+      "icon": "icon.ico",
+      "artifactName": "adhkar-daily.exe"
+    },
+    "nsis": {
+      "installerIcon": "icon.ico",
+      "uninstallerIcon": "icon.ico"
     },
     "linux": {
       "target": "AppImage",
-      "icon": "build/icon.png"
+      "icon": "build/icon.png",
+      "artifactName": "adhkar-daily-linux.AppImage"
     }
   },
   "devDependencies": {

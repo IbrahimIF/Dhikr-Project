@@ -14,7 +14,7 @@ function App() {
   const [selectedContent, setSelectedContent] = useState(null);
   const [overlayMode, setOverlayMode] = useState("view");
 
-  const { displayTime, prayerTimes } = usePrayerLogic(selectedTimezone);
+  const { displayTime, prayerTimes, activePrayer } = usePrayerLogic(selectedTimezone);
 
   const [duas, setDuas] = useState([]);
   const [dhikrs, setDhikrs] = useState([]);
@@ -51,7 +51,7 @@ function App() {
   return (
     <div className="container">
       <div className="pattern-overlay" />
-      <WindowTitleBar />
+      <WindowTitleBar activePrayer={activePrayer} />
 
       <ContentOverlay
         isOpen={!!selectedContent}

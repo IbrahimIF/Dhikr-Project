@@ -1,25 +1,48 @@
 .window-titlebar {
-  position: absolute;
+  position: fixed;
   height: 32px;
-  top: -5px;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   align-items: center;
-  padding: 0 12px;
-  background-color: #080b1300;
-  width: 100%;
+  gap: 8px;
+  padding: 0 14px;
+  background: rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   -webkit-app-region: drag;
   user-select: none;
-}
-
-.window-bar {
-  font-size: 13px;
-  color: #ffffff00;
-  opacity: 0.85;
-  width: 100%;
+  z-index: 9999;
 }
 
 .window-titlebar button,
 .window-titlebar a,
 .window-titlebar input {
   -webkit-app-region: no-drag;
+}
+
+.titlebar-logo {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.titlebar-title {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+/* Light prayer backgrounds (isha/asr) — darken slightly less */
+body.light-prayer .window-titlebar {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+body.light-prayer .titlebar-title {
+  color: rgba(20, 30, 45, 0.75);
 }

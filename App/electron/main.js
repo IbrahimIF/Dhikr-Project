@@ -105,7 +105,7 @@ app.whenReady().then(() => {
       content.title,
       content.arabic,
       content.transliteration || '',
-      content.meaning || '',
+      content.translation || '',
       content.context || '',
       content.benefit || '',
       content.reference || '',
@@ -153,6 +153,10 @@ app.whenReady().then(() => {
       console.error(err);
       return { success: false, error: err.message };
     }
+  });
+
+  ipcMain.handle('update-titlebar-color', (_event, color, symbolColor) => {
+    mainWindow.setTitleBarOverlay({ color, symbolColor: symbolColor || '#ffffff' });
   });
 
   ipcMain.handle('delete-content', (event, id) => {

@@ -6,5 +6,6 @@ contextBridge.exposeInMainWorld('api', {
   toggleFavorite: (id) => ipcRenderer.invoke('toggle-favorite', id),
   addContent: (content) => ipcRenderer.invoke('add-content', content),
   updateContent: (content) => ipcRenderer.invoke('update-content', content),
-  deleteContent: (id) => ipcRenderer.invoke('delete-content', id)
+  deleteContent: (id) => ipcRenderer.invoke('delete-content', id),
+  updateTitleBarColor: (color, symbolColor) => ipcRenderer.invoke('update-titlebar-color', color, symbolColor)
 });

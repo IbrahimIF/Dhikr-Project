@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { usePrayerBackground } from "@/hooks/usePrayerBackground";
+import { usePrayerBackground, prayerColors } from "@/hooks/usePrayerBackground";
 
 const Index = () => {
-  usePrayerBackground();
+  const { activePrayer } = usePrayerBackground();
 
   const [downloadCount, setDownloadCount] = useState(0);
   const [showDownload, setShowDownload] = useState(false);
@@ -22,33 +22,13 @@ const Index = () => {
     fetchCount();
   }, []);
 
-  useEffect(() => {
-  if (!activePrayer) return;
-
-  const isLight = lightBackgrounds.has(activePrayer);
-  document.body.classList.toggle('light-prayer', isLight);
-  document.body.classList.toggle('dark-text', isLight); // NEW
-
-  if (!hasMounted.current) {
-    document.body.style.backgroundColor = prayerColors[activePrayer];
-    previousPrayer.current = activePrayer;
-    hasMounted.current = true;
-    return;
-  }
-
-  if (previousPrayer.current !== activePrayer) {
-    document.body.style.backgroundColor = prayerColors[activePrayer];
-    previousPrayer.current = activePrayer;
-  }
-}, [activePrayer]);
-
   const download = async (platform: string) => {
     try {
       await fetch("/api/increment-download", { method: "POST" });
       setDownloadCount(prev => prev + 1);
 
       const files: Record<string, string> = {
-        windows: "/downloads/adhkar-daily.exe",
+        windows: "/downloads/adhkar-daily-windows.zip",
         mac: "/downloads/adhkar-daily-mac.zip",
         linux: "/downloads/adhkar-daily-linux.AppImage"
       };
@@ -82,7 +62,7 @@ const Index = () => {
 
           <button
             onClick={() => setShowDownload(true)}
-            className="border-2 border-gold bg-gold/10 hover:bg-gold/20 text-gold tracking-[0.25em] uppercase px-12 py-4 transition-all mb-6"
+            className="border-2 border-gold bg-gold/20 hover:bg-gold/30 text-gold tracking-[0.25em] uppercase px-12 py-4 transition-all mb-6"
           >
             Download App
           </button>
@@ -138,11 +118,14 @@ const Index = () => {
 
       {/* DOWNLOAD OVERLAY */}
       {showDownload && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
 
         <div className="pattern-overlay" />
 
-        <div className="relative bg-background border border-gold px-12 py-14 text-center max-w-md w-full shadow-xl">
+        <div
+          className="relative border border-gold px-12 py-14 text-center max-w-md w-full shadow-xl"
+          style={{ backgroundColor: activePrayer ? prayerColors[activePrayer] : '#111822' }}
+        >
 
           <h2 className="font-display text-2xl tracking-wider mb-8">
             Choose your platform
@@ -154,7 +137,7 @@ const Index = () => {
               onClick={() => download("windows")}
               className="border border-gold px-6 py-3 hover:bg-gold/20 transition-all"
             >
-              Windows
+              Windows (portable zip)
             </button>
 
             <button
