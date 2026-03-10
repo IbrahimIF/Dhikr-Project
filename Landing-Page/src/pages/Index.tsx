@@ -22,6 +22,26 @@ const Index = () => {
     fetchCount();
   }, []);
 
+  useEffect(() => {
+  if (!activePrayer) return;
+
+  const isLight = lightBackgrounds.has(activePrayer);
+  document.body.classList.toggle('light-prayer', isLight);
+  document.body.classList.toggle('dark-text', isLight); // NEW
+
+  if (!hasMounted.current) {
+    document.body.style.backgroundColor = prayerColors[activePrayer];
+    previousPrayer.current = activePrayer;
+    hasMounted.current = true;
+    return;
+  }
+
+  if (previousPrayer.current !== activePrayer) {
+    document.body.style.backgroundColor = prayerColors[activePrayer];
+    previousPrayer.current = activePrayer;
+  }
+}, [activePrayer]);
+
   const download = async (platform: string) => {
     try {
       await fetch("/api/increment-download", { method: "POST" });

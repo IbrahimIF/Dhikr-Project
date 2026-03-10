@@ -86,6 +86,7 @@ export function usePrayerBackground() {
     if (!activePrayer) return;
     const isLight = lightBackgrounds.has(activePrayer);
     document.body.classList.toggle('light-prayer', isLight);
+    document.body.classList.toggle('dark-text', isLight);
 
     if (!hasMounted.current) {
       document.body.style.backgroundColor = prayerColors[activePrayer];

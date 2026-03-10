@@ -66,6 +66,28 @@
   }
 }
 
+body {
+  color: white; /* default text color for dark backgrounds */
+}
+
+body.dark-text {
+  color: #111; /* dark text for light backgrounds */
+}
+
+/* Optional: adjust muted text, links, buttons */
+body.dark-text .text-muted-foreground {
+  color: #555;
+}
+
+body.dark-text a {
+  color: #222;
+}
+
+body.dark-text button {
+  color: #222;
+  border-color: #444;
+}
+
 #root {
   max-width: 1280px;
   padding: 2rem;
