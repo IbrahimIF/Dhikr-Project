@@ -17,9 +17,18 @@ function PrayerCard({ prayerTimes }) {
       ) : (
         <p>Loading prayer times...</p>
       )}
-      <button onClick={() => setCount((count) => count + 1)}>
-        count is {count}
-      </button>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <button
+          onClick={() => setCount(0)}
+          title="Reset counter"
+          style={{ opacity: 0.5, fontSize: '1rem', lineHeight: 1, background: 'none', border: 'none', cursor: 'pointer', color: 'inherit' }}
+        >
+          ×
+        </button>
+      </div>
     </div>
   );
 }

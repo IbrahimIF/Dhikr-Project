@@ -8,12 +8,22 @@ const Index = () => {
   const [showDownload, setShowDownload] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const supabaseHeaders = {
+    apikey: supabaseKey,
+    Authorization: `Bearer ${supabaseKey}`,
+    "Content-Type": "application/json"
+  };
+
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const res = await fetch("/api/downloads.json");
+        const res = await fetch(`${supabaseUrl}/rest/v1/downloads?select=count&id=eq.1`, {
+          headers: supabaseHeaders
+        });
         const data = await res.json();
-        setDownloadCount(data.count);
+        if (data?.[0]?.count !== undefined) setDownloadCount(data[0].count);
       } catch (err) {
         console.error("Download counter failed", err);
       }
@@ -31,8 +41,12 @@ const Index = () => {
 
     window.location.href = files[platform];
 
-    // Best-effort counter increment
-    fetch("/api/increment-download", { method: "POST" })
+    // Best-effort counter increment via Supabase RPC
+    fetch(`${supabaseUrl}/rest/v1/rpc/increment_downloads`, {
+      method: "POST",
+      headers: supabaseHeaders,
+      body: "{}"
+    })
       .then(() => setDownloadCount(prev => prev + 1))
       .catch(() => {});
   };
@@ -101,6 +115,13 @@ const Index = () => {
             <span className="text-sm">
               {downloadCount.toLocaleString()} downloads
             </span>
+            <button
+              onClick={() => setDownloadCount(0)}
+              className="text-xs text-muted-foreground opacity-40 hover:opacity-80 leading-none"
+              title="Reset counter"
+            >
+              ×
+            </button>
           </div>
 
           <p className="text-xs text-muted-foreground">
@@ -172,7 +193,7 @@ const Index = () => {
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
 
           <iframe
-            src="https://www.youtube.com/embed/VIDEO_ID"
+            src="https://www.youtube.com/embed/iguJKci8zBo"
             className="w-11/12 h-3/4"
             allowFullScreen
           />
