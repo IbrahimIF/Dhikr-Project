@@ -1,7 +1,9 @@
 {
-  "name": "vite-project",
+  "name": "adhkar-daily",
+  "description": "Adhkar Daily - A sacred space for duʿāʾ, dhikr, and daily remembrance",
+  "author": "Ibrahim",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
@@ -22,8 +24,8 @@
     "react-icons": "^5.6.0"
   },
   "build": {
-    "appId": "com.ibrahim.adkhar-daily",
-    "productName": "Adkhar Daily",
+    "appId": "com.ibrahim.adhkar-daily",
+    "productName": "Adhkar Daily",
     "asar": true,
     "asarUnpack": [
       "**/better-sqlite3/**",
@@ -49,12 +51,13 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "icon.ico",
-      "artifactName": "adhkar-daily.exe"
+      "icon": "build/icon.ico",
+      "artifactName": "adhkar-daily.exe",
+      "executableName": "Adhkar Daily"
     },
     "nsis": {
-      "installerIcon": "icon.ico",
-      "uninstallerIcon": "icon.ico"
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
     },
     "linux": {
       "target": "AppImage",

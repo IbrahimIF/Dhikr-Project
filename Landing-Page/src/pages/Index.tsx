@@ -22,21 +22,19 @@ const Index = () => {
     fetchCount();
   }, []);
 
-  const download = async (platform: string) => {
-    try {
-      await fetch("/api/increment-download", { method: "POST" });
-      setDownloadCount(prev => prev + 1);
+  const download = (platform: string) => {
+    const files: Record<string, string> = {
+      windows: "/downloads/adhkar-daily.exe",
+      mac: "/downloads/adhkar-daily-mac.zip",
+      linux: "/downloads/adhkar-daily-linux.AppImage"
+    };
 
-      const files: Record<string, string> = {
-        windows: "/downloads/adhkar-daily-windows.zip",
-        mac: "/downloads/adhkar-daily-mac.zip",
-        linux: "/downloads/adhkar-daily-linux.AppImage"
-      };
+    window.location.href = files[platform];
 
-      window.location.href = files[platform];
-    } catch (err) {
-      console.error(err);
-    }
+    // Best-effort counter increment
+    fetch("/api/increment-download", { method: "POST" })
+      .then(() => setDownloadCount(prev => prev + 1))
+      .catch(() => {});
   };
 
   return (

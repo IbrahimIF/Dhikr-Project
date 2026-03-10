@@ -2,6 +2,8 @@ const { app, BrowserWindow, ipcMain, shell} = require('electron');
 const path = require('path');
 const { initDatabase, getDB } = require('./database');
 
+app.setAppUserModelId('Adhkar Daily');
+
 let mainWindow;
 
 function createWindow() {
