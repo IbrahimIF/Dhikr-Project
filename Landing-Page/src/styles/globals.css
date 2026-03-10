@@ -142,3 +142,39 @@ body.dark-text {
   pointer-events: none;
   z-index: 0;
 }
+
+/* Light prayer: darken pattern overlay so it shows on light backgrounds */
+body.light-prayer .pattern-overlay {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(0, 0, 0, 0.5) 20px,
+      rgba(0, 0, 0, 0.5) 21px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(0, 0, 0, 0.5) 20px,
+      rgba(0, 0, 0, 0.5) 21px
+    );
+}
+
+/* Isha-specific: brighter gold + black muted text */
+body.prayer-isha .text-gold {
+  color: hsl(42.1, 100%, 32.2%);
+}
+
+body.prayer-isha .border-gold {
+  border-color: hsl(42.1, 100%, 32.2%);
+}
+
+body.prayer-isha .bg-gold\/20 {
+  background-color: hsla(40.2, 88.2%, 36.5%, 0.2);
+}
+
+body.prayer-isha {
+  --muted-foreground: 0 0% 0%;
+}
