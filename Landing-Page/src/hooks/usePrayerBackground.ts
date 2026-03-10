@@ -8,7 +8,7 @@ export const prayerColors: Record<string, string> = {
   isha: '#d5e2ef',
 };
 
-const lightBackgrounds = new Set(['isha', 'asr']);
+const lightBackgrounds = new Set(['isha']);
 
 function toMinutes(timeStr: string): number {
   const [hours, minutes] = timeStr.split(':').map(Number);

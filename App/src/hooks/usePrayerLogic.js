@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import adhanSound from '../assets/Adhan.mp3';
 import { toMinutes, formatTimeInZone } from '../utils/timeUtils';
 
-const lightBackgrounds = new Set(['isha', 'asr']);
+const lightBackgrounds = new Set(['isha']);
 
 const prayerColors = {
   fajr: '#111822',
@@ -28,7 +28,6 @@ export function usePrayerLogic(selectedTimezone = 'Europe/London') {
   const timezoneChanged = useRef(false);
 
   const audioRef = useRef(null);
-  const lastPlayedPrayer = useRef(null);
 
   /* ---------------- CLOCK ---------------- */
 
