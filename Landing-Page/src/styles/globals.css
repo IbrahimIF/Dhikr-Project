@@ -77,7 +77,7 @@ body.dark-text {
   --gold: 40 62% 34%;
   --gold-light: 40 55% 45%;
   --gold-dark: 40 70% 26%;
-  color: hsl(0, 0%, 100%);
+  color: hsl(210, 30%, 15%);
 }
 
 #root {

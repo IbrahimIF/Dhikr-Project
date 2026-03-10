@@ -91,7 +91,7 @@ const Index = () => {
             </button>
 
             <a
-              href="https://buy.stripe.com/test_28E8wR86Japc8Vff2Z8og00"
+              href="https://buy.stripe.com/4gM4gAg6Df6Feqy45hdEs01"
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-gold underline"
