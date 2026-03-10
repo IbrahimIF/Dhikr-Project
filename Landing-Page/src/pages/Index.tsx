@@ -24,9 +24,9 @@ const Index = () => {
 
   const download = (platform: string) => {
     const files: Record<string, string> = {
-      windows: "/downloads/adhkar-daily.exe",
-      mac: "/downloads/adhkar-daily-mac.zip",
-      linux: "/downloads/adhkar-daily-linux.AppImage"
+      windows: import.meta.env.VITE_DOWNLOAD_WINDOWS,
+      mac: import.meta.env.VITE_DOWNLOAD_MAC,
+      linux: import.meta.env.VITE_DOWNLOAD_LINUX
     };
 
     window.location.href = files[platform];
@@ -146,10 +146,10 @@ const Index = () => {
             </button>
 
             <button
-              onClick={() => download("linux")}
-              className="border border-gold px-6 py-3 hover:bg-gold/20 transition-all"
+              disabled
+              className="border border-muted px-6 py-3 text-muted-foreground cursor-not-allowed"
             >
-              Linux
+              Linux (coming soon)
             </button>
 
           </div>
