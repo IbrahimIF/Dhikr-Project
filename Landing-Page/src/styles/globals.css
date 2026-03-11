@@ -81,7 +81,6 @@ body.dark-text {
 }
 
 #root {
-  max-width: 1280px;
   padding: 2rem;
   text-align: center;
 }
@@ -92,17 +91,15 @@ body.dark-text {
   justify-content: center;
   align-items: center;
   height: 98vh;
-  width: 99vw;
-  position: relative;
 }
 
 .golden-border::before {
   content: '';
   position: absolute;
-  top: 7.5%;
-  right: 7.5%;
-  bottom: 7.5%;
-  left: 7.5%;
+  top: 3%;
+  right: 3%;
+  bottom: 3%;
+  left: 3%;
   border: 2px solid #c5a059;
   box-shadow: 0 0 0 1px #b38b45, inset 0 0 0 1px #b38b45;
   pointer-events: none;
@@ -111,12 +108,28 @@ body.dark-text {
 .golden-border::after {
   content: '';
   position: absolute;
-  top: calc(7.5% + 8px);
-  right: calc(7.5% + 8px);
-  bottom: calc(7.5% + 8px);
-  left: calc(7.5% + 8px);
+  top: calc(3% + 8px);
+  right: calc(3% + 8px);
+  bottom: calc(3% + 8px);
+  left: calc(3% + 8px);
   border: 1px solid #c5a059;
   pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  .golden-border::before {
+    top: 7.5%;
+    right: 7.5%;
+    bottom: 7.5%;
+    left: 7.5%;
+  }
+
+  .golden-border::after {
+    top: calc(7.5% + 8px);
+    right: calc(7.5% + 8px);
+    bottom: calc(7.5% + 8px);
+    left: calc(7.5% + 8px);
+  }
 }
 
 /* Geometric pattern overlay */

@@ -56,9 +56,9 @@ const Index = () => {
       <div className="pattern-overlay" />
 
       <div className="golden-border">
-        <div className="flex flex-col items-center text-center px-8 max-w-2xl">
+        <div className="flex flex-col items-center text-center px-4 sm:px-8 max-w-2xl">
 
-          <h1 className="font-display text-6xl md:text-7xl tracking-widest mb-8">
+          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl tracking-widest mb-8">
             Adhkar Daily
           </h1>
 
@@ -74,7 +74,7 @@ const Index = () => {
 
           <button
             onClick={() => setShowDownload(true)}
-            className="border-2 border-gold bg-gold/20 hover:bg-gold/30 text-gold tracking-[0.25em] uppercase px-12 py-4 transition-all mb-6"
+            className="border-2 border-gold bg-gold/20 hover:bg-gold/30 text-gold tracking-[0.25em] uppercase px-8 sm:px-12 py-4 transition-all mb-6"
           >
             Download App
           </button>
@@ -137,12 +137,12 @@ const Index = () => {
 
       {/* DOWNLOAD OVERLAY */}
       {showDownload && (
-      <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center">
+      <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center px-4">
 
         <div className="pattern-overlay" />
 
         <div
-          className="relative border border-gold px-12 py-14 text-center max-w-md w-full shadow-xl"
+          className="relative border border-gold px-6 py-10 sm:px-12 sm:py-14 text-center max-w-md w-full shadow-xl"
           style={{ backgroundColor: activePrayer ? prayerColors[activePrayer] : '#111822' }}
         >
 
