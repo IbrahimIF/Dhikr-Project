@@ -167,10 +167,10 @@ const Index = () => {
             </button>
 
             <button
-              disabled
-              className="border border-muted px-6 py-3 text-muted-foreground cursor-not-allowed"
+              onClick={() => download("linux")}
+              className="border border-gold px-6 py-3 hover:bg-gold/20 transition-all"
             >
-              Linux (coming soon)
+              Linux
             </button>
 
           </div>
