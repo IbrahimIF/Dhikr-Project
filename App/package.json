@@ -50,10 +50,9 @@
       "package.json"
     ],
     "win": {
-      "target": "nsis",
+      "target": "portable",
       "icon": "build/icon.ico",
-      "artifactName": "adhkar-daily.exe",
-      "executableName": "Adhkar Daily"
+      "artifactName": "adhkar-daily.exe"
     },
     "nsis": {
       "installerIcon": "build/icon.ico",

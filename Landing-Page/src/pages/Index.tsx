@@ -156,7 +156,7 @@ const Index = () => {
               onClick={() => download("windows")}
               className="border border-gold px-6 py-3 hover:bg-gold/20 transition-all"
             >
-              Windows (portable zip)
+              Windows
             </button>
 
             <button
@@ -170,7 +170,7 @@ const Index = () => {
               onClick={() => download("linux")}
               className="border border-gold px-6 py-3 hover:bg-gold/20 transition-all"
             >
-              Linux (AppImage)
+              Linux
             </button>
 
           </div>
