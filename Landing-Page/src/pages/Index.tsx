@@ -193,7 +193,7 @@ const Index = () => {
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
 
           <iframe
-            src="https://www.youtube.com/watch?v=LFO4TMdhdkU"
+            src="https://www.youtube.com/embed/LFO4TMdhdkU"
             className="w-11/12 h-3/4"
             allowFullScreen
           />
