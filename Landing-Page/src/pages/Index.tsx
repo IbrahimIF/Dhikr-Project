@@ -6,6 +6,7 @@ const Index = () => {
 
   const [downloadCount, setDownloadCount] = useState(0);
   const [showDownload, setShowDownload] = useState(false);
+  const [showMacChoice, setShowMacChoice] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -35,7 +36,8 @@ const Index = () => {
   const download = (platform: string) => {
     const files: Record<string, string> = {
       windows: import.meta.env.VITE_DOWNLOAD_WINDOWS,
-      mac: import.meta.env.VITE_DOWNLOAD_MAC,
+      mac_intel: import.meta.env.VITE_DOWNLOAD_MAC_INTEL,
+      mac_arm: import.meta.env.VITE_DOWNLOAD_MAC_ARM,
       linux: import.meta.env.VITE_DOWNLOAD_LINUX
     };
 
@@ -160,10 +162,10 @@ const Index = () => {
             </button>
 
             <button
-              disabled
-              className="border border-muted px-6 py-3 text-muted-foreground cursor-not-allowed"
+              onClick={() => { setShowDownload(false); setShowMacChoice(true); }}
+              className="border border-gold px-6 py-3 hover:bg-gold/20 transition-all"
             >
-              macOS (coming soon)
+              macOS
             </button>
 
             <button
@@ -177,6 +179,55 @@ const Index = () => {
 
           <button
             onClick={() => setShowDownload(false)}
+            className="mt-8 text-sm text-muted-foreground underline"
+          >
+            Cancel
+          </button>
+
+        </div>
+
+      </div>
+      )}
+
+      {/* MAC CHOICE OVERLAY */}
+      {showMacChoice && (
+      <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center px-4">
+
+        <div className="pattern-overlay" />
+
+        <div
+          className="relative border border-gold px-6 py-10 sm:px-12 sm:py-14 text-center max-w-md w-full shadow-xl"
+          style={{ backgroundColor: activePrayer ? prayerColors[activePrayer] : '#111822' }}
+        >
+
+          <h2 className="font-display text-2xl tracking-wider mb-2">
+            Choose your Mac
+          </h2>
+
+          <p className="text-sm text-muted-foreground mb-8">
+            Not sure? M1/M2/M3/M4 chips → Apple Silicon. Older Macs → Intel.
+          </p>
+
+          <div className="flex flex-col gap-4">
+
+            <button
+              onClick={() => { download("mac_arm"); setShowMacChoice(false); }}
+              className="border border-gold px-6 py-3 hover:bg-gold/20 transition-all"
+            >
+              Apple Silicon (M1 / M2 / M3 / M4)
+            </button>
+
+            <button
+              onClick={() => { download("mac_intel"); setShowMacChoice(false); }}
+              className="border border-gold px-6 py-3 hover:bg-gold/20 transition-all"
+            >
+              Intel (x64)
+            </button>
+
+          </div>
+
+          <button
+            onClick={() => setShowMacChoice(false)}
             className="mt-8 text-sm text-muted-foreground underline"
           >
             Cancel
